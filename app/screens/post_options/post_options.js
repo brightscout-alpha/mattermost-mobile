@@ -149,11 +149,7 @@ export default class PostOptions extends PureComponent {
 
     getFlagOption = () => {
         const {formatMessage} = this.context.intl;
-        const {channelIsReadOnly, isFlagged} = this.props;
-
-        if (channelIsReadOnly) {
-            return null;
-        }
+        const {isFlagged} = this.props;
 
         if (isFlagged) {
             return (
