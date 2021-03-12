@@ -3,19 +3,22 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
+import configureStore from 'test/test_store';
 import {Provider} from 'react-redux';
 
 import * as CustomStatusSelectors from '@selectors/custom_status';
 
 import CustomStatusEmoji from '@components/custom_status/custom_status_emoji';
 import Emoji from '@components/emoji';
+import {Store} from 'redux';
 
 jest.mock('@selectors/custom_status');
 
 describe('components/custom_status/custom_status_emoji', () => {
-    const mockStore = configureStore();
-    const store = mockStore({});
+    let store : Store;
+    beforeAll(async () => {
+        store = await configureStore();
+    });
 
     const getCustomStatus = () => {
         return {

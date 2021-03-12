@@ -5,9 +5,8 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
   value={
     Object {
       "store": Object {
-        "clearActions": [Function],
+        "@@observable": [Function],
         "dispatch": [Function],
-        "getActions": [Function],
         "getState": [Function],
         "replaceReducer": [Function],
         "subscribe": [Function],
@@ -20,9 +19,8 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
         "onStateChange": [Function],
         "parentSub": undefined,
         "store": Object {
-          "clearActions": [Function],
+          "@@observable": [Function],
           "dispatch": [Function],
-          "getActions": [Function],
           "getState": [Function],
           "replaceReducer": [Function],
           "subscribe": [Function],
@@ -43,9 +41,8 @@ exports[`components/custom_status/custom_status_emoji should match snapshot with
   value={
     Object {
       "store": Object {
-        "clearActions": [Function],
+        "@@observable": [Function],
         "dispatch": [Function],
-        "getActions": [Function],
         "getState": [Function],
         "replaceReducer": [Function],
         "subscribe": [Function],
@@ -58,9 +55,8 @@ exports[`components/custom_status/custom_status_emoji should match snapshot with
         "onStateChange": [Function],
         "parentSub": undefined,
         "store": Object {
-          "clearActions": [Function],
+          "@@observable": [Function],
           "dispatch": [Function],
-          "getActions": [Function],
           "getState": [Function],
           "replaceReducer": [Function],
           "subscribe": [Function],
@@ -73,6 +69,5 @@ exports[`components/custom_status/custom_status_emoji should match snapshot with
   <CustomStatusEmoji
     emojiSize={34}
   />
-  ,
 </Context.Provider>
 `;
