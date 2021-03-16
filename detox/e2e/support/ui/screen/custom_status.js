@@ -9,6 +9,8 @@ class CustomStatusScreen {
         selectedEmojiPrefix: 'custom_status.emoji.',
         clearInputButton: 'custom_status.clear_input',
         doneButton: 'custom_status.done_button',
+        suggestionPrefix: 'custom_status_suggestion.',
+        suggestionClearButton: 'custom_status_suggestion.clear_button',
     }
 
     customStatusScreen = element(by.id(this.testID.customStatusScreen));
@@ -19,6 +21,16 @@ class CustomStatusScreen {
     getCustomStatusSelectedEmoji = (emoji) => {
         const emojiTestID = `${this.testID.selectedEmojiPrefix}${emoji}`;
         return element(by.id(emojiTestID));
+    }
+
+    getCustomStatusSuggestion = (text) => {
+        const suggestionID = `${this.testID.suggestionPrefix}${text}`;
+        return element(by.id(suggestionID));
+    }
+
+    getSuggestionClearButton = (text) => {
+        const suggestionID = `${this.testID.suggestionPrefix}${text}`;
+        return element(by.id(this.testID.suggestionClearButton).withAncestor(by.id(suggestionID)));
     }
 
     toBeVisible = async () => {
@@ -35,7 +47,7 @@ class CustomStatusScreen {
     }
 
     tapSuggestion = async ({emoji, text}) => {
-        await element(by.text(text).withAncestor(by.id('custom_status.suggestions'))).tap();
+        await this.getCustomStatusSuggestion(text).tap();
 
         await expect(this.input).toHaveText(text);
         await expect(this.getCustomStatusSelectedEmoji(emoji)).toBeVisible();
