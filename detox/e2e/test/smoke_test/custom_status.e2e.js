@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {ChannelScreen, CustomStatusScreen, UserProfileScreen, ThreadScreen, MoreDirectMessagesScreen} from '@support/ui/screen';
+import {ChannelScreen, CustomStatusScreen, UserProfileScreen, ThreadScreen, ChannelInfoScreen} from '@support/ui/screen';
 import {
     Setup,
     System,
@@ -193,27 +193,47 @@ describe('Custom status', () => {
         await expect(element(by.id(`custom_status.emoji.${customStatus.emojiName}`))).toBeVisible();
         await ChannelScreen.closeSettingsSidebar();
 
+        // # Post a message and check if custom status emoji is present in the post header
         await ChannelScreen.postMessage(message);
         await expect(element(by.id(`custom_status_emoji.${customStatus.emojiName}`).withAncestor(by.id('post_header')))).toBeVisible();
 
+        // # Open the reply thread for the last post
         const {post} = await Post.apiGetLastPostInChannel(testChannel.id);
         await ChannelScreen.openReplyThreadFor(post.id, message);
+
+        // * Check if the custom status emoji is present in the post header and close thread
         await expect(element(by.id(`custom_status_emoji.${customStatus.emojiName}`).withAncestor(by.id('post_header')))).toBeVisible();
         await ThreadScreen.back();
 
         await openSettingsSidebar();
+
+        // # Open user profile screen
         await UserProfileScreen.open();
         await UserProfileScreen.toBeVisible();
+
+        // * Check if custom status is present in the user profile screen
         await expect(element(by.id(`custom_status.emoji.${customStatus.emojiName}`))).toBeVisible();
         await expect(element(by.text(customStatus.text).withAncestor(by.id(UserProfileScreen.testID.customStatus)))).toBeVisible();
-        await UserProfileScreen.close();
 
+        // # Scroll to bottom and tap the Send Message button to open the direct message channel
+        await UserProfileScreen.scrollView.scrollTo('bottom');
+        await UserProfileScreen.sendMessageButton.tap();
+
+        // # Open main sidebar and check if custom status emoji is present next to the username in the Direct messages section
         await ChannelScreen.openMainSidebar();
-        await MoreDirectMessagesScreen.open();
-        await MoreDirectMessagesScreen.searchInput.typeText(testUser.username);
-        await MoreDirectMessagesScreen.getUserAtIndex(0).tap();
+        expect(element(by.id(`${testUser.username}.custom_status_emoji.${customStatus.emojiName}`))).toBeVisible();
+        await ChannelScreen.closeMainSidebar();
 
+        // * Check if the custom status emoji is present in the channel title
         await expect(element(by.id(`custom_status_emoji.${customStatus.emojiName}`).withAncestor(by.id('channel.title.button')))).toBeVisible();
+
+        // # Open the channel info screen
+        await ChannelInfoScreen.open();
+
+        // * Check if the custom status is present in the channel info screen and then close the screen
+        await expect(element(by.id(`custom_status.emoji.${customStatus.emojiName}`))).toBeVisible();
+        await expect(element(by.text(customStatus.text).withAncestor(by.id(ChannelInfoScreen.testID.headerCustomStatus)))).toBeVisible();
+        await ChannelInfoScreen.close();
     });
 });
 

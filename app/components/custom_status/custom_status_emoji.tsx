@@ -10,12 +10,13 @@ import {Text, TextStyle} from 'react-native';
 interface ComponentProps {
     emojiSize?: number;
     userID?: string;
-    style?: TextStyle
+    style?: TextStyle;
+    testID?: string;
 }
 
 const CustomStatusEmoji = (props: ComponentProps) => {
     const getCustomStatus = makeGetCustomStatus();
-    const {emojiSize, userID, style} = props;
+    const {emojiSize, userID, style, testID} = props;
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => {
         return getCustomStatus(state, userID);
@@ -25,10 +26,11 @@ const CustomStatusEmoji = (props: ComponentProps) => {
         return null;
     }
 
+    const testIdPrefix = testID ? `${testID}.` : '';
     return (
         <Text
             style={style}
-            testID={`custom_status_emoji.${customStatus.emoji}`}
+            testID={`${testIdPrefix}custom_status_emoji.${customStatus.emoji}`}
         >
             <Emoji
                 size={emojiSize}

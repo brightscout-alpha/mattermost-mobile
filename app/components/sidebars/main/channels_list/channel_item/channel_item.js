@@ -181,6 +181,7 @@ export default class ChannelItem extends PureComponent {
                 <CustomStatusEmoji
                     userID={this.props.teammateId}
                     style={[{color: changeOpacity(theme.sidebarText, 0.6)}, extraTextStyle]}
+                    testID={displayName}
                 />
             ) : null;
 

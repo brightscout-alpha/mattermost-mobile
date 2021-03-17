@@ -384,6 +384,7 @@ export default class UserProfile extends PureComponent {
                 <ScrollView
                     style={style.scrollView}
                     contentContainerStyle={style.contentContainer}
+                    testID='user_profile.scroll_view'
                 >
                     <View style={style.top}>
                         <ProfilePicture
@@ -407,6 +408,7 @@ export default class UserProfile extends PureComponent {
                         iconSize={24}
                         textId={t('mobile.routes.user_profile.send_message')}
                         theme={theme}
+                        testID='user_profile.row.send_message'
                     />
                     {this.renderAdditionalOptions()}
                 </ScrollView>
