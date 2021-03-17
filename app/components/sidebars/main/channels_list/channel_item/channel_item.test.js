@@ -229,7 +229,7 @@ describe('ChannelItem', () => {
         );
 
         expect(wrapper.getElement()).toMatchSnapshot();
-    })
+    });
 
     test('Should call onPress', () => {
         const onSelectChannel = jest.fn();
