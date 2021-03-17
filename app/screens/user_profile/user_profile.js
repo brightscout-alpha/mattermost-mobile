@@ -186,15 +186,20 @@ export default class UserProfile extends PureComponent {
 
         const label = formatMessage({id: 'user.settings.general.status', defaultMessage: 'Status'});
         return (
-            <View>
+            <View
+                testID='user_profile.custom_status'
+            >
                 <Text style={style.header}>{label}</Text>
                 <View style={style.customStatus}>
-                    <View style={style.iconContainer}>
+                    <Text
+                        style={style.iconContainer}
+                        testID={`custom_status.emoji.${customStatus.emoji}`}
+                    >
                         <Emoji
                             emojiName={customStatus.emoji}
                             size={20}
                         />
-                    </View>
+                    </Text>
                     <Text style={[style.text, style.customStatusText]}>{customStatus.text}</Text>
                     {isMyUser && (
                         <View style={style.clearButton}>
@@ -371,7 +376,10 @@ export default class UserProfile extends PureComponent {
         }
 
         return (
-            <SafeAreaView style={style.container}>
+            <SafeAreaView
+                style={style.container}
+                testID='user_profile.screen'
+            >
                 <StatusBar/>
                 <ScrollView
                     style={style.scrollView}
@@ -414,6 +422,7 @@ const createStyleSheet = makeStyleSheetFromTheme((theme) => {
         },
         iconContainer: {
             marginRight: 5,
+            color: theme.centerChannelColor,
         },
         customStatus: {
             position: 'relative',

@@ -5,15 +5,17 @@ import {makeGetCustomStatus, isCustomStatusEnabled} from '@selectors/custom_stat
 import {useSelector} from 'react-redux';
 import {GlobalState} from '@mm-redux/types/store';
 import Emoji from '@components/emoji';
+import {Text, TextStyle} from 'react-native';
 
 interface ComponentProps {
     emojiSize?: number;
     userID?: string;
+    style?: TextStyle
 }
 
 const CustomStatusEmoji = (props: ComponentProps) => {
     const getCustomStatus = makeGetCustomStatus();
-    const {emojiSize, userID} = props;
+    const {emojiSize, userID, style} = props;
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => {
         return getCustomStatus(state, userID);
@@ -24,10 +26,15 @@ const CustomStatusEmoji = (props: ComponentProps) => {
     }
 
     return (
-        <Emoji
-            size={emojiSize}
-            emojiName={customStatus.emoji}
-        />
+        <Text
+            style={style}
+            testID={`custom_status_emoji.${customStatus.emoji}`}
+        >
+            <Emoji
+                size={emojiSize}
+                emojiName={customStatus.emoji}
+            />
+        </Text>
     );
 };
 

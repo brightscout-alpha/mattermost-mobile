@@ -29,6 +29,7 @@ import SearchScreen from './search';
 import SelectServerScreen from './select_server';
 import SelectTeamScreen from './select_team';
 import ThreadScreen from './thread';
+import UserProfileScreen from './user_profile';
 
 export {
     AddReactionScreen,
@@ -59,4 +60,5 @@ export {
     SelectServerScreen,
     SelectTeamScreen,
     ThreadScreen,
+    UserProfileScreen,
 };

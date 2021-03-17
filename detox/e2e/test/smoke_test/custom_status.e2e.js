@@ -1,21 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {ChannelScreen, CustomStatusScreen} from '@support/ui/screen';
+import {ChannelScreen, CustomStatusScreen, UserProfileScreen, ThreadScreen, MoreDirectMessagesScreen} from '@support/ui/screen';
 import {
     Setup,
     System,
+    Post,
+    Channel,
 } from '@support/server_api';
 import {SettingsSidebar} from '@support/ui/component';
 
 const {openSettingsSidebar} = ChannelScreen;
 
 describe('Custom status', () => {
+    let testChannel;
+    let testUser;
     beforeAll(async () => {
         await System.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
     });
 
     beforeEach(async () => {
-        const {user} = await Setup.apiInit();
+        const {team, user} = await Setup.apiInit();
+        const {channel} = await Channel.apiGetChannelByName(team.name, 'town-square');
+        testChannel = channel;
+        testUser = user;
 
         // # Open channel screen
         await ChannelScreen.open(user);
@@ -172,6 +179,41 @@ describe('Custom status', () => {
 
         // # Close the modal
         await CustomStatusScreen.close();
+    });
+
+    test('MM-T3893 Verifying where the custom status appears', async () => {
+        const message = 'Hello';
+
+        // # Open custom status modal and close it after setting the status
+        await openCustomStatusModalAndSetStatus(customStatus);
+        await openSettingsSidebar();
+
+        // * Check if the status is set in the sidebar and close the sidebar
+        await expect(element(by.text(customStatus.text).withAncestor(by.id(SettingsSidebar.testID.customStatusAction)))).toBeVisible();
+        await expect(element(by.id(`custom_status.emoji.${customStatus.emojiName}`))).toBeVisible();
+        await ChannelScreen.closeSettingsSidebar();
+
+        await ChannelScreen.postMessage(message);
+        await expect(element(by.id(`custom_status_emoji.${customStatus.emojiName}`).withAncestor(by.id('post_header')))).toBeVisible();
+
+        const {post} = await Post.apiGetLastPostInChannel(testChannel.id);
+        await ChannelScreen.openReplyThreadFor(post.id, message);
+        await expect(element(by.id(`custom_status_emoji.${customStatus.emojiName}`).withAncestor(by.id('post_header')))).toBeVisible();
+        await ThreadScreen.back();
+
+        await openSettingsSidebar();
+        await UserProfileScreen.open();
+        await UserProfileScreen.toBeVisible();
+        await expect(element(by.id(`custom_status.emoji.${customStatus.emojiName}`))).toBeVisible();
+        await expect(element(by.text(customStatus.text).withAncestor(by.id(UserProfileScreen.testID.customStatus)))).toBeVisible();
+        await UserProfileScreen.close();
+
+        await ChannelScreen.openMainSidebar();
+        await MoreDirectMessagesScreen.open();
+        await MoreDirectMessagesScreen.searchInput.typeText(testUser.username);
+        await MoreDirectMessagesScreen.getUserAtIndex(0).tap();
+
+        await expect(element(by.id(`custom_status_emoji.${customStatus.emojiName}`).withAncestor(by.id('channel.title.button')))).toBeVisible();
     });
 });
 
