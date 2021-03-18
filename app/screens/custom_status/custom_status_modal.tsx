@@ -242,10 +242,10 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
             <TouchableOpacity
                 testID={`custom_status.emoji.${isStatusSet ? (emoji || 'speech_balloon') : 'default'}`}
                 onPress={this.openEmojiPicker}
-                style={style.emoji}
+                style={style.iconContainer}
             >
                 {isStatusSet ? (
-                    <Text style={style.icon}>
+                    <Text style={style.emoji}>
                         <Emoji
                             emojiName={emoji || 'speech_balloon'}
                             size={20}
@@ -344,9 +344,12 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
             height: 48,
         },
         icon: {
-            color: theme.centerChannelColor,
+            color: changeOpacity(theme.centerChannelColor, 0.64),
         },
         emoji: {
+            color: theme.centerChannelColor,
+        },
+        iconContainer: {
             position: 'absolute',
             left: 14,
             top: 12,
