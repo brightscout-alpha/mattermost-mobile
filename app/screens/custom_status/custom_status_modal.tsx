@@ -245,10 +245,12 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
                 style={style.emoji}
             >
                 {isStatusSet ? (
-                    <Emoji
-                        emojiName={emoji || 'speech_balloon'}
-                        size={20}
-                    />
+                    <Text style={style.icon}>
+                        <Emoji
+                            emojiName={emoji || 'speech_balloon'}
+                            size={20}
+                        />
+                    </Text>
                 ) : (
                     <CompassIcon
                         name='emoticon-happy-outline'
@@ -336,13 +338,13 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
         },
         input: {
             color: theme.centerChannelColor,
-            fontSize: 14,
+            fontSize: 17,
             paddingHorizontal: 52,
             textAlignVertical: 'center',
             height: 48,
         },
         icon: {
-            color: changeOpacity(theme.centerChannelColor, 0.64),
+            color: theme.centerChannelColor,
         },
         emoji: {
             position: 'absolute',
