@@ -61,9 +61,20 @@ function updateMe(state: RequestStatusType = initialRequestState(), action: Gene
     );
 }
 
+function clearCustomStatus(state: RequestStatusType = initialRequestState(), action: GenericAction): RequestStatusType {
+    return handleRequest(
+        UserTypes.UNSET_CUSTOM_STATUS_REQUEST,
+        UserTypes.UNSET_CUSTOM_STATUS_SUCCESS,
+        UserTypes.UNSET_CUSTOM_STATUS_FAILURE,
+        state,
+        action,
+    );
+}
+
 export default (combineReducers({
     checkMfa,
     login,
     autocompleteUsers,
     updateMe,
+    clearCustomStatus,
 }) as (b: UsersRequestsStatuses, a: GenericAction) => UsersRequestsStatuses);

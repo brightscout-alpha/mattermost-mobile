@@ -26,6 +26,7 @@ function mapStateToProps(state) {
         theme: getTheme(state),
         isCustomStatusEnabled: isCustomStatusEnabled(state),
         customStatus: getCustomStatus(state) || {},
+        clearStatusRequestStatus: state.requests.users?.clearCustomStatus?.status,
     };
 }
 

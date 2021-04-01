@@ -30,6 +30,10 @@ export default keyMirror({
     UPDATE_ME_SUCCESS: null,
     UPDATE_ME_FAILURE: null,
 
+    UNSET_CUSTOM_STATUS_REQUEST: null,
+    UNSET_CUSTOM_STATUS_SUCCESS: null,
+    UNSET_CUSTOM_STATUS_FAILURE: null,
+
     RECEIVED_ME: null,
     RECEIVED_TERMS_OF_SERVICE_STATUS: null,
     RECEIVED_PROFILE: null,

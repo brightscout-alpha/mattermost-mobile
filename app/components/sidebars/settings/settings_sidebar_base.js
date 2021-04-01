@@ -5,7 +5,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {ScrollView, View} from 'react-native';
 
-import {General} from '@mm-redux/constants';
+import {General, RequestStatus} from '@mm-redux/constants';
 import EventEmitter from '@mm-redux/utils/event_emitter';
 
 import {showModal, showModalOverCurrentContext, dismissModal} from '@actions/navigation';
@@ -36,6 +36,7 @@ export default class SettingsSidebarBase extends PureComponent {
         theme: PropTypes.object.isRequired,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         customStatus: PropTypes.object,
+        clearStatusRequestStatus: PropTypes.string,
     };
 
     static defaultProps = {
@@ -43,6 +44,11 @@ export default class SettingsSidebarBase extends PureComponent {
         status: 'offline',
         customStatus: {},
     };
+
+    constructor(props) {
+        super(props);
+        this.prevRequestStatus = null;
+    }
 
     componentDidMount() {
         this.mounted = true;
@@ -206,11 +212,17 @@ export default class SettingsSidebarBase extends PureComponent {
     };
 
     renderCustomStatus = () => {
-        const {isCustomStatusEnabled, customStatus, theme} = this.props;
+        const {isCustomStatusEnabled, customStatus, theme, clearStatusRequestStatus} = this.props;
         if (!isCustomStatusEnabled) {
             return null;
         }
-        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
+
+        let isStatusSet = customStatus && customStatus.emoji;
+        if (clearStatusRequestStatus === RequestStatus.STARTED || (clearStatusRequestStatus === RequestStatus.SUCCESS && this.prevRequestStatus !== clearStatusRequestStatus)) {
+            isStatusSet = false;
+        }
+        this.prevRequestStatus = clearStatusRequestStatus;
+
         const labelComponent = isStatusSet ? (
             <CustomStatusText
                 text={customStatus.text}
