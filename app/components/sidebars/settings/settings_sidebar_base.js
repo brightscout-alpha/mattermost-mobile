@@ -22,6 +22,7 @@ import StatusLabel from './status_label';
 import Emoji from '@components/emoji';
 import CustomStatusText from '@components/custom_status/custom_status_text';
 import ClearButton from '@components/custom_status/clear_button';
+import FormattedText from '@components/formatted_text';
 import {changeOpacity} from '@utils/theme';
 
 export default class SettingsSidebarBase extends PureComponent {
@@ -36,6 +37,7 @@ export default class SettingsSidebarBase extends PureComponent {
         theme: PropTypes.object.isRequired,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         customStatus: PropTypes.object,
+        setStatusRequestStatus: PropTypes.string,
         clearStatusRequestStatus: PropTypes.string,
     };
 
@@ -47,7 +49,8 @@ export default class SettingsSidebarBase extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.prevRequestStatus = null;
+        this.prevSetStatusRequestStatus = null;
+        this.prevClearStatusRequestStatus = null;
     }
 
     componentDidMount() {
@@ -212,16 +215,26 @@ export default class SettingsSidebarBase extends PureComponent {
     };
 
     renderCustomStatus = () => {
-        const {isCustomStatusEnabled, customStatus, theme, clearStatusRequestStatus} = this.props;
+        const {isCustomStatusEnabled, customStatus, theme, setStatusRequestStatus, clearStatusRequestStatus} = this.props;
         if (!isCustomStatusEnabled) {
             return null;
         }
 
+        let showRetryMessage = false;
         let isStatusSet = customStatus && customStatus.emoji;
-        if (clearStatusRequestStatus === RequestStatus.STARTED || (clearStatusRequestStatus === RequestStatus.SUCCESS && this.prevRequestStatus !== clearStatusRequestStatus)) {
+        if (clearStatusRequestStatus === RequestStatus.STARTED || (clearStatusRequestStatus === RequestStatus.SUCCESS && this.prevClearStatusRequestStatus !== clearStatusRequestStatus)) {
             isStatusSet = false;
         }
-        this.prevRequestStatus = clearStatusRequestStatus;
+        if (clearStatusRequestStatus === RequestStatus.FAILURE && this.prevClearStatusRequestStatus !== clearStatusRequestStatus) {
+            showRetryMessage = true;
+        }
+
+        if (!showRetryMessage && setStatusRequestStatus === RequestStatus.FAILURE && this.prevSetStatusRequestStatus !== setStatusRequestStatus) {
+            showRetryMessage = true;
+        }
+
+        this.prevSetStatusRequestStatus = setStatusRequestStatus;
+        this.prevClearStatusRequestStatus = clearStatusRequestStatus;
 
         const labelComponent = isStatusSet ? (
             <CustomStatusText
@@ -257,6 +270,15 @@ export default class SettingsSidebarBase extends PureComponent {
                 />
             ) : null;
 
+        const retryMessage = showRetryMessage ?
+            (
+                <FormattedText
+                    id='custom_status.failure_message'
+                    defaultMessage='Failed to update status. Try again'
+                    style={{color: theme.errorTextColor}}
+                />
+            ) : null;
+
         return (
             <DrawerItem
                 testID='settings.sidebar.custom_status.action'
@@ -268,6 +290,7 @@ export default class SettingsSidebarBase extends PureComponent {
                 onPress={this.goToCustomStatus}
                 theme={theme}
                 labelSibling={clearButton}
+                failureText={retryMessage}
             />
         );
     };

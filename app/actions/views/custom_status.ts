@@ -8,12 +8,22 @@ import {UserTypes} from '@mm-redux/action_types';
 import {logError} from '@mm-redux/actions/errors';
 
 export function setCustomStatus(customStatus: UserCustomStatus): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.updateCustomStatus,
-        params: [
-            customStatus,
-        ],
-    });
+    return async (dispatch: DispatchFunc) => {
+        dispatch({type: UserTypes.SET_CUSTOM_STATUS_REQUEST});
+
+        try {
+            await Client4.updateCustomStatus(customStatus);
+        } catch (error) {
+            dispatch(batchActions([
+                {type: UserTypes.SET_CUSTOM_STATUS_FAILURE, error},
+                logError(error),
+            ]));
+            return {error};
+        }
+
+        dispatch({type: UserTypes.SET_CUSTOM_STATUS_SUCCESS});
+        return {data: true};
+    };
 }
 
 export function unsetCustomStatus(): ActionFunc {
