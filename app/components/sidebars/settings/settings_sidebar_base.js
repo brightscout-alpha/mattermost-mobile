@@ -49,13 +49,48 @@ export default class SettingsSidebarBase extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.prevSetStatusRequestStatus = null;
-        this.prevClearStatusRequestStatus = null;
+        this.state = {
+            showStatus: true,
+            showRetryMessage: false,
+        };
     }
 
     componentDidMount() {
         this.mounted = true;
         EventEmitter.on(NavigationTypes.CLOSE_SETTINGS_SIDEBAR, this.closeSettingsSidebar);
+    }
+
+    componentDidUpdate(prevProps) {
+        const {customStatus, setStatusRequestStatus, clearStatusRequestStatus} = this.props;
+        let showStatus = customStatus && customStatus.emoji;
+        let {showRetryMessage} = this.state;
+        if (prevProps.clearStatusRequestStatus !== clearStatusRequestStatus) {
+            if (clearStatusRequestStatus === RequestStatus.STARTED || clearStatusRequestStatus === RequestStatus.SUCCESS) {
+                showStatus = false;
+                showRetryMessage = false;
+            } else if (clearStatusRequestStatus === RequestStatus.FAILURE) {
+                showStatus = true;
+                showRetryMessage = true;
+            }
+
+            this.updateState(showStatus, showRetryMessage);
+        }
+
+        if (prevProps.setStatusRequestStatus !== setStatusRequestStatus) {
+            if (setStatusRequestStatus === RequestStatus.STARTED || setStatusRequestStatus === RequestStatus.SUCCESS) {
+                showStatus = true;
+                showRetryMessage = false;
+            } else if (setStatusRequestStatus === RequestStatus.FAILURE) {
+                showStatus = true;
+                showRetryMessage = true;
+            }
+
+            this.updateState(showStatus, showRetryMessage);
+        }
+    }
+
+    updateState(showStatus, showRetryMessage) {
+        this.setState({showStatus, showRetryMessage});
     }
 
     componentWillUnmount() {
@@ -215,27 +250,13 @@ export default class SettingsSidebarBase extends PureComponent {
     };
 
     renderCustomStatus = () => {
-        const {isCustomStatusEnabled, customStatus, theme, setStatusRequestStatus, clearStatusRequestStatus} = this.props;
+        const {isCustomStatusEnabled, customStatus, theme} = this.props;
+        const {showStatus, showRetryMessage} = this.state;
         if (!isCustomStatusEnabled) {
             return null;
         }
 
-        let showRetryMessage = false;
-        let isStatusSet = customStatus && customStatus.emoji;
-        if (clearStatusRequestStatus === RequestStatus.STARTED || (clearStatusRequestStatus === RequestStatus.SUCCESS && this.prevClearStatusRequestStatus !== clearStatusRequestStatus)) {
-            isStatusSet = false;
-        }
-        if (clearStatusRequestStatus === RequestStatus.FAILURE && this.prevClearStatusRequestStatus !== clearStatusRequestStatus) {
-            showRetryMessage = true;
-        }
-
-        if (!showRetryMessage && setStatusRequestStatus === RequestStatus.FAILURE && this.prevSetStatusRequestStatus !== setStatusRequestStatus) {
-            showRetryMessage = true;
-        }
-
-        this.prevSetStatusRequestStatus = setStatusRequestStatus;
-        this.prevClearStatusRequestStatus = clearStatusRequestStatus;
-
+        const isStatusSet = customStatus && customStatus.emoji && showStatus;
         const labelComponent = isStatusSet ? (
             <CustomStatusText
                 text={customStatus.text}
