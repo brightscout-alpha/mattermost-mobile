@@ -1,20 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {UserCustomStatus} from '@mm-redux/types/users';
-import {ActionFunc, DispatchFunc, batchActions} from '@mm-redux/types/actions';
+import {ActionFunc, DispatchFunc, batchActions, GetStateFunc} from '@mm-redux/types/actions';
 import {bindClientFunc} from '@mm-redux/actions/helpers';
 import {Client4} from '@mm-redux/client';
 import {UserTypes} from '@mm-redux/action_types';
 import {logError} from '@mm-redux/actions/errors';
+import {getCurrentUser} from '@mm-redux/selectors/entities/common';
 
 export function setCustomStatus(customStatus: UserCustomStatus): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        dispatch({type: UserTypes.SET_CUSTOM_STATUS_REQUEST});
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const user = getCurrentUser(getState());
+        const oldCustomStatus = user?.props?.customStatus;
+        user.props.customStatus = JSON.stringify(customStatus);
+        dispatch({type: UserTypes.RECEIVED_ME, data: user});
 
+        dispatch({type: UserTypes.SET_CUSTOM_STATUS_REQUEST});
         try {
             await Client4.updateCustomStatus(customStatus);
         } catch (error) {
+            user.props.customStatus = oldCustomStatus;
             dispatch(batchActions([
+                {type: UserTypes.RECEIVED_ME, data: user},
                 {type: UserTypes.SET_CUSTOM_STATUS_FAILURE, error},
                 logError(error),
             ]));
