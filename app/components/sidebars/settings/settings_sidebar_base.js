@@ -63,27 +63,34 @@ export default class SettingsSidebarBase extends PureComponent {
     componentDidUpdate(prevProps) {
         const {setStatusRequestStatus, clearStatusRequestStatus} = this.props;
         if (prevProps.clearStatusRequestStatus !== clearStatusRequestStatus) {
-            this.handleRequestStatusChange('clearStatus');
+            this.handleClearStatusRequestStatusChange();
         }
 
         if (prevProps.setStatusRequestStatus !== setStatusRequestStatus) {
-            this.handleRequestStatusChange('setStatus');
+            this.handleSetStatusRequestStatusChange();
         }
     }
 
-    handleRequestStatusChange(requestType) {
-        const {customStatus, setStatusRequestStatus, clearStatusRequestStatus} = this.props;
+    handleClearStatusRequestStatusChange() {
+        const {customStatus, clearStatusRequestStatus} = this.props;
         let showStatus = customStatus && customStatus.emoji;
         let {showRetryMessage} = this.state;
-        if (requestType === 'clearStatus') {
-            if (clearStatusRequestStatus === RequestStatus.STARTED || clearStatusRequestStatus === RequestStatus.SUCCESS) {
-                showStatus = false;
-                showRetryMessage = false;
-            } else if (clearStatusRequestStatus === RequestStatus.FAILURE) {
-                showStatus = true;
-                showRetryMessage = true;
-            }
-        } else if (setStatusRequestStatus === RequestStatus.STARTED || setStatusRequestStatus === RequestStatus.SUCCESS) {
+        if (clearStatusRequestStatus === RequestStatus.STARTED || clearStatusRequestStatus === RequestStatus.SUCCESS) {
+            showStatus = false;
+            showRetryMessage = false;
+        } else if (clearStatusRequestStatus === RequestStatus.FAILURE) {
+            showStatus = true;
+            showRetryMessage = true;
+        }
+
+        this.setState({showStatus, showRetryMessage});
+    }
+
+    handleSetStatusRequestStatusChange = () => {
+        const {customStatus, setStatusRequestStatus} = this.props;
+        let showStatus = customStatus && customStatus.emoji;
+        let {showRetryMessage} = this.state;
+        if (setStatusRequestStatus === RequestStatus.STARTED || setStatusRequestStatus === RequestStatus.SUCCESS) {
             showStatus = true;
             showRetryMessage = false;
         } else if (setStatusRequestStatus === RequestStatus.FAILURE) {
