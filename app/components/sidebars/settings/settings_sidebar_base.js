@@ -71,39 +71,39 @@ export default class SettingsSidebarBase extends PureComponent {
         }
     }
 
-    handleClearStatusRequestStatusChange() {
-        const {customStatus, clearStatusRequestStatus} = this.props;
-        let showStatus = customStatus && customStatus.emoji;
-        let {showRetryMessage} = this.state;
-        if (clearStatusRequestStatus === RequestStatus.STARTED || clearStatusRequestStatus === RequestStatus.SUCCESS) {
-            showStatus = false;
-            showRetryMessage = false;
-        } else if (clearStatusRequestStatus === RequestStatus.FAILURE) {
-            showStatus = true;
-            showRetryMessage = true;
-        }
-
-        this.setState({showStatus, showRetryMessage});
-    }
-
-    handleSetStatusRequestStatusChange = () => {
-        const {customStatus, setStatusRequestStatus} = this.props;
-        let showStatus = customStatus && customStatus.emoji;
-        let {showRetryMessage} = this.state;
-        if (setStatusRequestStatus === RequestStatus.STARTED || setStatusRequestStatus === RequestStatus.SUCCESS) {
-            showStatus = true;
-            showRetryMessage = false;
-        } else if (setStatusRequestStatus === RequestStatus.FAILURE) {
-            showStatus = true;
-            showRetryMessage = true;
-        }
-
-        this.setState({showStatus, showRetryMessage});
-    }
-
     componentWillUnmount() {
         this.mounted = false;
         EventEmitter.off(NavigationTypes.CLOSE_SETTINGS_SIDEBAR, this.closeSettingsSidebar);
+    }
+
+    handleClearStatusRequestStatusChange = () => {
+        const {clearStatusRequestStatus} = this.props;
+        if (clearStatusRequestStatus === RequestStatus.STARTED || clearStatusRequestStatus === RequestStatus.SUCCESS) {
+            this.setState({
+                showStatus: false,
+                showRetryMessage: false,
+            });
+        } else if (clearStatusRequestStatus === RequestStatus.FAILURE) {
+            this.setState({
+                showStatus: true,
+                showRetryMessage: true,
+            });
+        }
+    }
+
+    handleSetStatusRequestStatusChange = () => {
+        const {setStatusRequestStatus} = this.props;
+        if (setStatusRequestStatus === RequestStatus.STARTED || setStatusRequestStatus === RequestStatus.SUCCESS) {
+            this.setState({
+                showStatus: true,
+                showRetryMessage: false,
+            });
+        } else if (setStatusRequestStatus === RequestStatus.FAILURE) {
+            this.setState({
+                showStatus: true,
+                showRetryMessage: true,
+            });
+        }
     }
 
     confirmResetBase = (status, intl) => {
