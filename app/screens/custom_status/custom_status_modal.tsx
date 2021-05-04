@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {intlShape, injectIntl} from 'react-intl';
-import {View, Text, TouchableOpacity, TextInput, Keyboard, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleProp, ViewStyle} from 'react-native';
 import {Navigation, NavigationComponent, NavigationComponentProps, OptionsTopBarButton, Options, NavigationButtonPressedEvent} from 'react-native-navigation';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -136,7 +136,7 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
         this.setState({emoji, text});
     };
 
-    renderRecentCustomStatuses = (style: any) => {
+    renderRecentCustomStatuses = (style: Record<string, StyleProp<ViewStyle>>) => {
         const {recentCustomStatuses, theme} = this.props;
         const recentStatuses = recentCustomStatuses.map((status: UserCustomStatus, index: number) => (
             <CustomStatusSuggestion
@@ -172,7 +172,7 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
         );
     };
 
-    renderCustomStatusSuggestions = (style: any) => {
+    renderCustomStatusSuggestions = (style: Record<string, StyleProp<ViewStyle>>) => {
         const {recentCustomStatuses, theme} = this.props;
         const recentCustomStatusTexts = recentCustomStatuses.map((status: UserCustomStatus) => status.text);
         const customStatusSuggestions = defaultCustomStatusSuggestions.

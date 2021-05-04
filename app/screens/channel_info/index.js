@@ -45,7 +45,7 @@ function mapStateToProps(state) {
             currentChannelGuestCount = 1;
         }
         customStatusEnabled = isCustomStatusEnabled(state);
-        customStatus = customStatusEnabled && getCustomStatus(state, teammateId);
+        customStatus = customStatusEnabled ? getCustomStatus(state, teammateId) : undefined;
     }
 
     if (currentChannel.type === General.GM_CHANNEL) {

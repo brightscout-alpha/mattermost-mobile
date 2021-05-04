@@ -14,13 +14,14 @@ import {logout} from 'app/actions/views/user';
 
 import SettingsSidebar from './settings_sidebar';
 
+const getCustomStatus = makeGetCustomStatus();
+
 function mapStateToProps(state) {
     const currentUser = getCurrentUser(state) || {};
     const status = getStatusForUserId(state, currentUser.id);
-    const getCustomStatus = makeGetCustomStatus();
 
     const customStatusEnabled = isCustomStatusEnabled(state);
-    const customStatus = customStatusEnabled && getCustomStatus(state);
+    const customStatus = customStatusEnabled ? getCustomStatus(state) : undefined;
     return {
         currentUser,
         locale: currentUser?.locale,
