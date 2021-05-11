@@ -1,10 +1,12 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
 
-import { shallowWithIntl } from 'test/intl-test-helper';
+import {shallowWithIntl} from 'test/intl-test-helper';
 import Preferences from '@mm-redux/constants/preferences';
-import { CustomStatusDuration } from '@mm-redux/types/users';
+import {CustomStatusDuration} from '@mm-redux/types/users';
 import ClearAfterSuggestion from './clear_after_suggestions';
-import { TouchableOpacity } from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
 describe('screens/clear_after_suggestions', () => {
     const baseProps = {
@@ -17,7 +19,7 @@ describe('screens/clear_after_suggestions', () => {
 
     it('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <ClearAfterSuggestion {...baseProps} />,
+            <ClearAfterSuggestion {...baseProps}/>,
         );
 
         expect(wrapper.getElement()).toMatchSnapshot();
@@ -45,4 +47,4 @@ describe('screens/clear_after_suggestions', () => {
         wrapper.find(TouchableOpacity).simulate('press');
         expect(baseProps.handleSuggestionClick).toBeCalled();
     });
-})
+});
