@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Text, TextStyle} from 'react-native';
-import {useSelector} from 'react-redux';
+import { Text, TextStyle } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import Emoji from '@components/emoji';
-import {GlobalState} from '@mm-redux/types/store';
-import {getCustomStatus} from '@selectors/custom_status';
+import { GlobalState } from '@mm-redux/types/store';
+import { getCustomStatus } from '@selectors/custom_status';
 
 interface ComponentProps {
     emojiSize?: number;
@@ -16,19 +16,18 @@ interface ComponentProps {
     testID?: string;
 }
 
-const CustomStatusEmoji = ({emojiSize, userID, style, testID}: ComponentProps) => {
+const CustomStatusEmoji = ({ emojiSize, userID, style, testID }: ComponentProps) => {
     const customStatus = useSelector((state: GlobalState) => {
         return getCustomStatus(state, userID);
     });
     const emojiExists = customStatus && customStatus.emoji;
-
     if (!emojiExists) {
         return null;
     }
 
     const testIdPrefix = testID ? `${testID}.` : '';
     return (
-        customStatus && (
+        customStatus ? (
             <Text
                 style={style}
                 testID={`${testIdPrefix}custom_status_emoji.${customStatus.emoji}`}
@@ -38,7 +37,7 @@ const CustomStatusEmoji = ({emojiSize, userID, style, testID}: ComponentProps) =
                     emojiName={customStatus.emoji}
                 />
             </Text>
-        )
+        ) : null
     );
 };
 

@@ -5,21 +5,22 @@ import React from 'react';
 
 import CustomStatusEmoji from '@components/custom_status/custom_status_emoji';
 import * as CustomStatusSelectors from '@selectors/custom_status';
-import {renderWithRedux} from 'test/testing_library';
+import { renderWithRedux } from 'test/testing_library';
+import { CustomStatusDuration } from '@mm-redux/types/users';
 
 jest.mock('@selectors/custom_status');
 
 describe('components/custom_status/custom_status_emoji', () => {
-    const getCustomStatus = () => {
-        return {
-            emoji: 'calendar',
-            text: 'In a meeting',
-        };
+    const getCustomStatus = {
+        emoji: 'calendar',
+        text: 'In a meeting',
+        duration: CustomStatusDuration.DONT_CLEAR,
     };
+    ;
     (CustomStatusSelectors.getCustomStatus as jest.Mock).mockReturnValue(getCustomStatus);
     it('should match snapshot', () => {
         const wrapper = renderWithRedux(
-            <CustomStatusEmoji/>,
+            <CustomStatusEmoji />,
         );
         expect(wrapper.toJSON()).toMatchSnapshot();
     });
@@ -37,7 +38,7 @@ describe('components/custom_status/custom_status_emoji', () => {
     it('should not render when getCustomStatus returns null', () => {
         (CustomStatusSelectors.getCustomStatus as jest.Mock).mockReturnValue(() => null);
         const wrapper = renderWithRedux(
-            <CustomStatusEmoji/>,
+            <CustomStatusEmoji />,
         );
 
         expect(wrapper.toJSON()).toBeNull();

@@ -6,12 +6,14 @@ import React from 'react';
 import Preferences from '@mm-redux/constants/preferences';
 import CustomStatusModal from '@screens/custom_status/custom_status_modal';
 
-import {shallowWithIntl} from 'test/intl-test-helper';
+import { shallowWithIntl } from 'test/intl-test-helper';
+import { CustomStatusDuration } from '@mm-redux/types/users';
 
 describe('screens/custom_status_modal', () => {
     const customStatus = {
         emoji: 'calendar',
         text: 'In a meeting',
+        duration: CustomStatusDuration.DONT_CLEAR,
     };
 
     const baseProps = {
@@ -27,7 +29,7 @@ describe('screens/custom_status_modal', () => {
 
     it('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <CustomStatusModal {...baseProps}/>,
+            <CustomStatusModal {...baseProps} />,
         );
 
         expect(wrapper.getElement()).toMatchSnapshot();

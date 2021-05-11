@@ -51,43 +51,90 @@ exports[`screens/custom_status_suggestion should match snapshot 1`] = `
           }
         }
       >
-        <CustomStatusText
-          text="In a meeting"
-          textStyle={
+        <View>
+          <CustomStatusText
+            text="In a meeting"
+            textStyle={
+              Object {
+                "color": "#3d3c40",
+              }
+            }
+            theme={
+              Object {
+                "awayIndicator": "#ffbc42",
+                "buttonBg": "#166de0",
+                "buttonColor": "#ffffff",
+                "centerChannelBg": "#ffffff",
+                "centerChannelColor": "#3d3c40",
+                "codeTheme": "github",
+                "dndIndicator": "#f74343",
+                "errorTextColor": "#fd5960",
+                "linkColor": "#2389d7",
+                "mentionBg": "#ffffff",
+                "mentionBj": "#ffffff",
+                "mentionColor": "#145dbf",
+                "mentionHighlightBg": "#ffe577",
+                "mentionHighlightLink": "#166de0",
+                "newMessageSeparator": "#ff8800",
+                "onlineIndicator": "#06d6a0",
+                "sidebarBg": "#145dbf",
+                "sidebarHeaderBg": "#1153ab",
+                "sidebarHeaderTextColor": "#ffffff",
+                "sidebarText": "#ffffff",
+                "sidebarTextActiveBorder": "#579eff",
+                "sidebarTextActiveColor": "#ffffff",
+                "sidebarTextHoverBg": "#4578bf",
+                "sidebarUnreadText": "#ffffff",
+                "type": "Mattermost",
+              }
+            }
+          />
+        </View>
+        <View
+          style={
             Object {
-              "color": "#3d3c40",
+              "marginLeft": 10,
             }
           }
-          theme={
-            Object {
-              "awayIndicator": "#ffbc42",
-              "buttonBg": "#166de0",
-              "buttonColor": "#ffffff",
-              "centerChannelBg": "#ffffff",
-              "centerChannelColor": "#3d3c40",
-              "codeTheme": "github",
-              "dndIndicator": "#f74343",
-              "errorTextColor": "#fd5960",
-              "linkColor": "#2389d7",
-              "mentionBg": "#ffffff",
-              "mentionBj": "#ffffff",
-              "mentionColor": "#145dbf",
-              "mentionHighlightBg": "#ffe577",
-              "mentionHighlightLink": "#166de0",
-              "newMessageSeparator": "#ff8800",
-              "onlineIndicator": "#06d6a0",
-              "sidebarBg": "#145dbf",
-              "sidebarHeaderBg": "#1153ab",
-              "sidebarHeaderTextColor": "#ffffff",
-              "sidebarText": "#ffffff",
-              "sidebarTextActiveBorder": "#579eff",
-              "sidebarTextActiveColor": "#ffffff",
-              "sidebarTextHoverBg": "#4578bf",
-              "sidebarUnreadText": "#ffffff",
-              "type": "Mattermost",
+        >
+          <CustomStatusText
+            text="Don't clear"
+            textStyle={
+              Object {
+                "color": "rgba(61,60,64,0.6)",
+              }
             }
-          }
-        />
+            theme={
+              Object {
+                "awayIndicator": "#ffbc42",
+                "buttonBg": "#166de0",
+                "buttonColor": "#ffffff",
+                "centerChannelBg": "#ffffff",
+                "centerChannelColor": "#3d3c40",
+                "codeTheme": "github",
+                "dndIndicator": "#f74343",
+                "errorTextColor": "#fd5960",
+                "linkColor": "#2389d7",
+                "mentionBg": "#ffffff",
+                "mentionBj": "#ffffff",
+                "mentionColor": "#145dbf",
+                "mentionHighlightBg": "#ffe577",
+                "mentionHighlightLink": "#166de0",
+                "newMessageSeparator": "#ff8800",
+                "onlineIndicator": "#06d6a0",
+                "sidebarBg": "#145dbf",
+                "sidebarHeaderBg": "#1153ab",
+                "sidebarHeaderTextColor": "#ffffff",
+                "sidebarText": "#ffffff",
+                "sidebarTextActiveBorder": "#579eff",
+                "sidebarTextActiveColor": "#ffffff",
+                "sidebarTextHoverBg": "#4578bf",
+                "sidebarUnreadText": "#ffffff",
+                "type": "Mattermost",
+              }
+            }
+          />
+        </View>
       </View>
     </View>
   </View>
@@ -145,95 +192,97 @@ exports[`screens/custom_status_suggestion should match snapshot with separator a
           }
         }
       >
-        <CustomStatusText
-          text="In a meeting"
-          textStyle={
+        <View>
+          <CustomStatusText
+            text="In a meeting"
+            textStyle={
+              Object {
+                "color": "#3d3c40",
+              }
+            }
+            theme={
+              Object {
+                "awayIndicator": "#ffbc42",
+                "buttonBg": "#166de0",
+                "buttonColor": "#ffffff",
+                "centerChannelBg": "#ffffff",
+                "centerChannelColor": "#3d3c40",
+                "codeTheme": "github",
+                "dndIndicator": "#f74343",
+                "errorTextColor": "#fd5960",
+                "linkColor": "#2389d7",
+                "mentionBg": "#ffffff",
+                "mentionBj": "#ffffff",
+                "mentionColor": "#145dbf",
+                "mentionHighlightBg": "#ffe577",
+                "mentionHighlightLink": "#166de0",
+                "newMessageSeparator": "#ff8800",
+                "onlineIndicator": "#06d6a0",
+                "sidebarBg": "#145dbf",
+                "sidebarHeaderBg": "#1153ab",
+                "sidebarHeaderTextColor": "#ffffff",
+                "sidebarText": "#ffffff",
+                "sidebarTextActiveBorder": "#579eff",
+                "sidebarTextActiveColor": "#ffffff",
+                "sidebarTextHoverBg": "#4578bf",
+                "sidebarUnreadText": "#ffffff",
+                "type": "Mattermost",
+              }
+            }
+          />
+        </View>
+        <View
+          style={
             Object {
-              "color": "#3d3c40",
+              "marginLeft": 10,
             }
           }
-          theme={
-            Object {
-              "awayIndicator": "#ffbc42",
-              "buttonBg": "#166de0",
-              "buttonColor": "#ffffff",
-              "centerChannelBg": "#ffffff",
-              "centerChannelColor": "#3d3c40",
-              "codeTheme": "github",
-              "dndIndicator": "#f74343",
-              "errorTextColor": "#fd5960",
-              "linkColor": "#2389d7",
-              "mentionBg": "#ffffff",
-              "mentionBj": "#ffffff",
-              "mentionColor": "#145dbf",
-              "mentionHighlightBg": "#ffe577",
-              "mentionHighlightLink": "#166de0",
-              "newMessageSeparator": "#ff8800",
-              "onlineIndicator": "#06d6a0",
-              "sidebarBg": "#145dbf",
-              "sidebarHeaderBg": "#1153ab",
-              "sidebarHeaderTextColor": "#ffffff",
-              "sidebarText": "#ffffff",
-              "sidebarTextActiveBorder": "#579eff",
-              "sidebarTextActiveColor": "#ffffff",
-              "sidebarTextHoverBg": "#4578bf",
-              "sidebarUnreadText": "#ffffff",
-              "type": "Mattermost",
+        >
+          <CustomStatusText
+            text="Don't clear"
+            textStyle={
+              Object {
+                "color": "rgba(61,60,64,0.6)",
+              }
             }
-          }
-        />
-      </View>
-      <View
-        style={
-          Object {
-            "position": "absolute",
-            "right": 13,
-            "top": 0,
-          }
-        }
-      >
-        <ClearButton
-          containerSize={40}
-          handlePress={[Function]}
-          iconName="close"
-          size={18}
-          testID="custom_status_suggestion.clear.button"
-          theme={
-            Object {
-              "awayIndicator": "#ffbc42",
-              "buttonBg": "#166de0",
-              "buttonColor": "#ffffff",
-              "centerChannelBg": "#ffffff",
-              "centerChannelColor": "#3d3c40",
-              "codeTheme": "github",
-              "dndIndicator": "#f74343",
-              "errorTextColor": "#fd5960",
-              "linkColor": "#2389d7",
-              "mentionBg": "#ffffff",
-              "mentionBj": "#ffffff",
-              "mentionColor": "#145dbf",
-              "mentionHighlightBg": "#ffe577",
-              "mentionHighlightLink": "#166de0",
-              "newMessageSeparator": "#ff8800",
-              "onlineIndicator": "#06d6a0",
-              "sidebarBg": "#145dbf",
-              "sidebarHeaderBg": "#1153ab",
-              "sidebarHeaderTextColor": "#ffffff",
-              "sidebarText": "#ffffff",
-              "sidebarTextActiveBorder": "#579eff",
-              "sidebarTextActiveColor": "#ffffff",
-              "sidebarTextHoverBg": "#4578bf",
-              "sidebarUnreadText": "#ffffff",
-              "type": "Mattermost",
+            theme={
+              Object {
+                "awayIndicator": "#ffbc42",
+                "buttonBg": "#166de0",
+                "buttonColor": "#ffffff",
+                "centerChannelBg": "#ffffff",
+                "centerChannelColor": "#3d3c40",
+                "codeTheme": "github",
+                "dndIndicator": "#f74343",
+                "errorTextColor": "#fd5960",
+                "linkColor": "#2389d7",
+                "mentionBg": "#ffffff",
+                "mentionBj": "#ffffff",
+                "mentionColor": "#145dbf",
+                "mentionHighlightBg": "#ffe577",
+                "mentionHighlightLink": "#166de0",
+                "newMessageSeparator": "#ff8800",
+                "onlineIndicator": "#06d6a0",
+                "sidebarBg": "#145dbf",
+                "sidebarHeaderBg": "#1153ab",
+                "sidebarHeaderTextColor": "#ffffff",
+                "sidebarText": "#ffffff",
+                "sidebarTextActiveBorder": "#579eff",
+                "sidebarTextActiveColor": "#ffffff",
+                "sidebarTextHoverBg": "#4578bf",
+                "sidebarUnreadText": "#ffffff",
+                "type": "Mattermost",
+              }
             }
-          }
-        />
+          />
+        </View>
       </View>
       <View
         style={
           Object {
             "backgroundColor": "rgba(61,60,64,0.2)",
             "height": 1,
+            "marginRight": 16,
           }
         }
       />

@@ -1,40 +1,34 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
-// See LICENSE.txt for license information.
-
 import React from 'react';
+
+import { shallowWithIntl } from 'test/intl-test-helper';
+import Preferences from '@mm-redux/constants/preferences';
+import { CustomStatusDuration } from '@mm-redux/types/users';
+import ClearAfterSuggestion from './clear_after_suggestions';
 import { TouchableOpacity } from 'react-native';
 
-import Preferences from '@mm-redux/constants/preferences';
-import CustomStatusSuggestion from '@screens/custom_status/custom_status_suggestion';
-import { CustomStatusDuration } from '@mm-redux/types/users';
-import { shallowWithIntl } from 'test/intl-test-helper';
-
-describe('screens/custom_status_suggestion', () => {
+describe('screens/clear_after_suggestions', () => {
     const baseProps = {
-        handleSuggestionClick: jest.fn(),
-        emoji: 'calendar',
-        text: 'In a meeting',
         theme: Preferences.THEMES.default,
-        separator: false,
         duration: CustomStatusDuration.DONT_CLEAR,
+        separator: false,
+        isSelected: false,
+        handleSuggestionClick: jest.fn(),
     };
 
     it('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <CustomStatusSuggestion
-                {...baseProps}
-            />,
+            <ClearAfterSuggestion {...baseProps} />,
         );
 
         expect(wrapper.getElement()).toMatchSnapshot();
     });
 
-    it('should match snapshot with separator and clear button', () => {
+    it('should match snapshot with separator and selected check', () => {
         const wrapper = shallowWithIntl(
-            <CustomStatusSuggestion
+            <ClearAfterSuggestion
                 {...baseProps}
                 separator={true}
-                handleClear={jest.fn()}
+                isSelected={true}
             />,
         );
 
@@ -43,7 +37,7 @@ describe('screens/custom_status_suggestion', () => {
 
     it('should call handleSuggestionClick on clicking the suggestion', () => {
         const wrapper = shallowWithIntl(
-            <CustomStatusSuggestion
+            <ClearAfterSuggestion
                 {...baseProps}
             />,
         );
@@ -51,4 +45,4 @@ describe('screens/custom_status_suggestion', () => {
         wrapper.find(TouchableOpacity).simulate('press');
         expect(baseProps.handleSuggestionClick).toBeCalled();
     });
-});
+})
