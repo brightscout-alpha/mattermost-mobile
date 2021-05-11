@@ -4,7 +4,7 @@ import React from 'react';
 
 import Preferences from '@mm-redux/constants/preferences';
 import DateTimeSelector from './date_time_selector';
-import { renderWithRedux } from 'test/testing_library';
+import {renderWithRedux} from 'test/testing_library';
 
 describe('screens/clear_after_modal', () => {
     const baseProps = {
@@ -14,7 +14,7 @@ describe('screens/clear_after_modal', () => {
 
     it('should match snapshot', () => {
         const wrapper = renderWithRedux(
-            <DateTimeSelector {...baseProps} />,
+            <DateTimeSelector {...baseProps}/>,
         );
 
         expect(wrapper.toJSON()).toMatchSnapshot();

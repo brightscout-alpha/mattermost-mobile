@@ -2040,7 +2040,6 @@ exports[`channel_info_header should match snapshot with custom status enabled 1`
           "alignItems": "center",
           "flexDirection": "row",
           "paddingVertical": 10,
-          "position": "relative",
         },
       ]
     }
@@ -2057,48 +2056,88 @@ exports[`channel_info_header should match snapshot with custom status enabled 1`
         }
       }
     />
-    <CustomStatusText
-      ellipsizeMode="tail"
-      numberOfLines={1}
-      text="In a meeting"
-      textStyle={
+    <View
+      style={
         Object {
-          "color": "#3d3c40",
-          "flex": 1,
-          "fontSize": 15,
+          "flexDirection": "row",
           "width": "80%",
         }
       }
-      theme={
-        Object {
-          "awayIndicator": "#ffbc42",
-          "buttonBg": "#166de0",
-          "buttonColor": "#ffffff",
-          "centerChannelBg": "#ffffff",
-          "centerChannelColor": "#3d3c40",
-          "codeTheme": "github",
-          "dndIndicator": "#f74343",
-          "errorTextColor": "#fd5960",
-          "linkColor": "#2389d7",
-          "mentionBg": "#ffffff",
-          "mentionBj": "#ffffff",
-          "mentionColor": "#145dbf",
-          "mentionHighlightBg": "#ffe577",
-          "mentionHighlightLink": "#166de0",
-          "newMessageSeparator": "#ff8800",
-          "onlineIndicator": "#06d6a0",
-          "sidebarBg": "#145dbf",
-          "sidebarHeaderBg": "#1153ab",
-          "sidebarHeaderTextColor": "#ffffff",
-          "sidebarText": "#ffffff",
-          "sidebarTextActiveBorder": "#579eff",
-          "sidebarTextActiveColor": "#ffffff",
-          "sidebarTextHoverBg": "#4578bf",
-          "sidebarUnreadText": "#ffffff",
-          "type": "Mattermost",
+    >
+      <View>
+        <CustomStatusText
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          text="In a meeting"
+          textStyle={
+            Object {
+              "color": "#3d3c40",
+              "fontSize": 15,
+            }
+          }
+          theme={
+            Object {
+              "awayIndicator": "#ffbc42",
+              "buttonBg": "#166de0",
+              "buttonColor": "#ffffff",
+              "centerChannelBg": "#ffffff",
+              "centerChannelColor": "#3d3c40",
+              "codeTheme": "github",
+              "dndIndicator": "#f74343",
+              "errorTextColor": "#fd5960",
+              "linkColor": "#2389d7",
+              "mentionBg": "#ffffff",
+              "mentionBj": "#ffffff",
+              "mentionColor": "#145dbf",
+              "mentionHighlightBg": "#ffe577",
+              "mentionHighlightLink": "#166de0",
+              "newMessageSeparator": "#ff8800",
+              "onlineIndicator": "#06d6a0",
+              "sidebarBg": "#145dbf",
+              "sidebarHeaderBg": "#1153ab",
+              "sidebarHeaderTextColor": "#ffffff",
+              "sidebarText": "#ffffff",
+              "sidebarTextActiveBorder": "#579eff",
+              "sidebarTextActiveColor": "#ffffff",
+              "sidebarTextHoverBg": "#4578bf",
+              "sidebarUnreadText": "#ffffff",
+              "type": "Mattermost",
+            }
+          }
+        />
+      </View>
+      <CustomStatusExpiry
+        theme={
+          Object {
+            "awayIndicator": "#ffbc42",
+            "buttonBg": "#166de0",
+            "buttonColor": "#ffffff",
+            "centerChannelBg": "#ffffff",
+            "centerChannelColor": "#3d3c40",
+            "codeTheme": "github",
+            "dndIndicator": "#f74343",
+            "errorTextColor": "#fd5960",
+            "linkColor": "#2389d7",
+            "mentionBg": "#ffffff",
+            "mentionBj": "#ffffff",
+            "mentionColor": "#145dbf",
+            "mentionHighlightBg": "#ffe577",
+            "mentionHighlightLink": "#166de0",
+            "newMessageSeparator": "#ff8800",
+            "onlineIndicator": "#06d6a0",
+            "sidebarBg": "#145dbf",
+            "sidebarHeaderBg": "#1153ab",
+            "sidebarHeaderTextColor": "#ffffff",
+            "sidebarText": "#ffffff",
+            "sidebarTextActiveBorder": "#579eff",
+            "sidebarTextActiveColor": "#ffffff",
+            "sidebarTextHoverBg": "#4578bf",
+            "sidebarUnreadText": "#ffffff",
+            "type": "Mattermost",
+          }
         }
-      }
-    />
+      />
+    </View>
   </View>
   <View
     style={
