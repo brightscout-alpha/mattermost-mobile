@@ -520,7 +520,6 @@ const createStyleSheet = makeStyleSheetFromTheme((theme) => {
             flexDirection: 'row',
         },
         customStatusTextContainer: {
-            justifyContent: 'center',
             width: '80%',
             flexDirection: 'row',
         },

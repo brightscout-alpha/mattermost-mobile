@@ -447,6 +447,8 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
                             {this.renderRecentCustomStatuses(style)}
                             {this.renderCustomStatusSuggestions(style)}
                         </View>
+                        <View style={style.separator}/>
+
                     </ScrollView>
                 </KeyboardAvoidingView>
             </SafeAreaView>

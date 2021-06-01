@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React, {useState} from 'react';
 import {View, Button, Platform} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from 'react-native-date-picker';
 import {useSelector} from 'react-redux';
 import {GlobalState} from '@mm-redux/types/store';
 import {getCurrentUserTimezone, isTimezoneEnabled} from '@mm-redux/selectors/entities/timezone';
@@ -19,7 +19,11 @@ type Props = {
     handleChange: (currentDate: Moment) => void;
 }
 
-type AndroidMode = 'date' | 'time';
+enum SelectorMode {
+    DATE = 'date',
+    TIME = 'time',
+    DATE_TIME = 'datetime',
+}
 
 const DateTimeSelector = (props: Props) => {
     const {theme} = props;
@@ -32,57 +36,78 @@ const DateTimeSelector = (props: Props) => {
         currentTime = getCurrentDateAndTimeForTimezone(timezone);
     }
     const [date, setDate] = useState<Moment>(currentTime);
-    const [mode, setMode] = useState<AndroidMode>('date');
+    const [mode, setMode] = useState<SelectorMode>(SelectorMode.DATE);
     const [show, setShow] = useState<boolean>(false);
 
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>, selectedDate: Date) => {
+    const onChange = (selectedDate: Date) => {
         const currentDate = selectedDate || date;
-        setShow(Platform.OS === 'ios');
         setDate(moment(currentDate));
         props.handleChange(moment(currentDate));
     };
 
-    const showMode = (currentMode: AndroidMode) => {
-        setShow(true);
-        setMode(currentMode);
-    };
-
     const showDatepicker = () => {
-        showMode('date');
+        setShow(true);
+        setMode(SelectorMode.DATE);
     };
 
     const showTimepicker = () => {
-        showMode('time');
+        setShow(true);
+        setMode(SelectorMode.TIME);
     };
 
-    const renderDateTimePicker = show && (
+    const renderDatePicker = show && mode === SelectorMode.DATE && (
         <DateTimePicker
             testID='dateTimePicker'
-            value={moment(date).toDate()}
+            date={date.toDate()}
             mode={mode}
-            is24Hour={militaryTime}
-            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-            onChange={onChange}
+            androidVariant={Platform.OS === 'ios' ? 'iosClone' : 'nativeAndroid'}
+            onDateChange={onChange}
+            minimumDate={currentTime.toDate()}
+            timeZoneOffsetInMinutes={-60 * 8}
+        />
+    );
+
+    const renderTimePicker = show && mode === SelectorMode.TIME && (
+        <DateTimePicker
+            testID='dateTimePicker'
+            date={moment(date).toDate()}
+            mode={mode}
+            androidVariant={Platform.OS === 'ios' ? 'iosClone' : 'nativeAndroid'}
+            is24hourSource={'locale'}
+            locale={militaryTime ? 'fr' : 'en'}
+            onDateChange={onChange}
+            minimumDate={currentTime.toDate()}
+            timeZoneOffsetInMinutes={-60 * 8}
         />
     );
 
     return (
-        <View style={styles.container}>
-            <View style={styles.datePicker}>
-                <Button
-                    onPress={showDatepicker}
-                    title='Select Date'
-                    color={theme.buttonBg}
-                />
+        <View
+            style={{
+                backgroundColor: theme.centerChannelBg,
+                alignItems: 'center',
+                paddingBottom: 10,
+            }}
+        >
+            <View style={styles.container}>
+                <View style={styles.datePicker}>
+                    <Button
+                        onPress={showDatepicker}
+                        title='Select Date'
+                        color={theme.buttonBg}
+                    />
+                </View>
+                <View>
+                    <Button
+                        onPress={showTimepicker}
+                        title='Select Time'
+                        color={theme.buttonBg}
+                    />
+                </View>
+
             </View>
-            <View>
-                <Button
-                    onPress={showTimepicker}
-                    title='Select Time'
-                    color={theme.buttonBg}
-                />
-            </View>
-            {renderDateTimePicker}
+            {renderDatePicker}
+            {renderTimePicker}
         </View>
     );
 };
@@ -92,10 +117,8 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
         container: {
             flex: 1,
             flexDirection: 'row',
-            backgroundColor: theme.centerChannelBg,
             alignItems: 'center',
             justifyContent: 'center',
-            paddingBottom: 10,
         },
         datePicker: {
             marginRight: 10,
