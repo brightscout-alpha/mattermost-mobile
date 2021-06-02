@@ -2,112 +2,84 @@
 // See LICENSE.txt for license information.
 import React, {useState} from 'react';
 import {View, Button, Platform} from 'react-native';
-import DateTimePicker from 'react-native-date-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import {useSelector} from 'react-redux';
 import {GlobalState} from '@mm-redux/types/store';
-import {getCurrentUserTimezone, isTimezoneEnabled} from '@mm-redux/selectors/entities/timezone';
-import {getCurrentDateAndTimeForTimezone} from '@utils/timezone';
+import {getCurrentUserTimezone} from '@mm-redux/selectors/entities/timezone';
+import {getCurrentMomentForTimezone, getUtcOffsetForTimeZone} from '@utils/timezone';
 import {getBool} from '@mm-redux/selectors/entities/preferences';
 import Preferences from '@mm-redux/constants/preferences';
 import {Theme} from '@mm-redux/types/preferences';
 import {makeStyleSheetFromTheme} from '@utils/theme';
-import moment from 'moment';
-import {Moment} from 'moment-timezone';
+import moment, {Moment} from 'moment-timezone';
 
 type Props = {
     theme: Theme;
     handleChange: (currentDate: Moment) => void;
 }
 
-enum SelectorMode {
-    DATE = 'date',
-    TIME = 'time',
-    DATE_TIME = 'datetime',
-}
+type AndroidMode = 'date' | 'time';
 
 const DateTimeSelector = (props: Props) => {
     const {theme} = props;
     const styles = getStyleSheet(theme);
-    const enableTimezone = useSelector((state: GlobalState) => isTimezoneEnabled(state));
     const militaryTime = useSelector((state: GlobalState) => getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, 'use_military_time'));
-    const timezone = useSelector((state: GlobalState) => getCurrentUserTimezone(state));
-    let currentTime = moment();
-    if (enableTimezone && timezone) {
-        currentTime = getCurrentDateAndTimeForTimezone(timezone);
-    }
+    const timezone = useSelector(getCurrentUserTimezone);
+    const currentTime = getCurrentMomentForTimezone(timezone);
+    const timezoneOffSetInMinutes = timezone ? getUtcOffsetForTimeZone(timezone) : undefined;
     const [date, setDate] = useState<Moment>(currentTime);
-    const [mode, setMode] = useState<SelectorMode>(SelectorMode.DATE);
+    const [mode, setMode] = useState<AndroidMode>('date');
     const [show, setShow] = useState<boolean>(false);
 
-    const onChange = (selectedDate: Date) => {
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>, selectedDate: Date) => {
         const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
         setDate(moment(currentDate));
         props.handleChange(moment(currentDate));
     };
 
-    const showDatepicker = () => {
+    const showMode = (currentMode: AndroidMode) => {
         setShow(true);
-        setMode(SelectorMode.DATE);
+        setMode(currentMode);
+    };
+
+    const showDatepicker = () => {
+        showMode('date');
     };
 
     const showTimepicker = () => {
-        setShow(true);
-        setMode(SelectorMode.TIME);
+        showMode('time');
     };
 
-    const renderDatePicker = show && mode === SelectorMode.DATE && (
+    const renderDateTimePicker = show && (
         <DateTimePicker
             testID='dateTimePicker'
-            date={date.toDate()}
+            value={date.toDate()}
             mode={mode}
-            androidVariant={Platform.OS === 'ios' ? 'iosClone' : 'nativeAndroid'}
-            onDateChange={onChange}
+            is24Hour={militaryTime}
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            onChange={onChange}
+            textColor={theme.centerChannelColor}
+            timeZoneOffsetInMinutes={timezoneOffSetInMinutes}
             minimumDate={currentTime.toDate()}
-            timeZoneOffsetInMinutes={-60 * 8}
-        />
-    );
-
-    const renderTimePicker = show && mode === SelectorMode.TIME && (
-        <DateTimePicker
-            testID='dateTimePicker'
-            date={moment(date).toDate()}
-            mode={mode}
-            androidVariant={Platform.OS === 'ios' ? 'iosClone' : 'nativeAndroid'}
-            is24hourSource={'locale'}
-            locale={militaryTime ? 'fr' : 'en'}
-            onDateChange={onChange}
-            minimumDate={currentTime.toDate()}
-            timeZoneOffsetInMinutes={-60 * 8}
         />
     );
 
     return (
-        <View
-            style={{
-                backgroundColor: theme.centerChannelBg,
-                alignItems: 'center',
-                paddingBottom: 10,
-            }}
-        >
-            <View style={styles.container}>
-                <View style={styles.datePicker}>
-                    <Button
-                        onPress={showDatepicker}
-                        title='Select Date'
-                        color={theme.buttonBg}
-                    />
-                </View>
-                <View>
-                    <Button
-                        onPress={showTimepicker}
-                        title='Select Time'
-                        color={theme.buttonBg}
-                    />
-                </View>
-
+        <View style={styles.container}>
+            <View style={styles.buttonContainer}>
+                <Button
+                    onPress={showDatepicker}
+                    title='Select Date'
+                    color={theme.buttonBg}
+                />
+                <Button
+                    onPress={showTimepicker}
+                    title='Select Time'
+                    color={theme.buttonBg}
+                />
             </View>
-            {renderDatePicker}
-            {renderTimePicker}
+            {renderDateTimePicker}
         </View>
     );
 };
@@ -116,14 +88,16 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
     return {
         container: {
             flex: 1,
+            paddingTop: 10,
+            backgroundColor: theme.centerChannelBg,
+        },
+        buttonContainer: {
+            flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'space-evenly',
+            marginBottom: 10,
         },
-        datePicker: {
-            marginRight: 10,
-        },
-
     };
 });
 export default DateTimeSelector;

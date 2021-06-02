@@ -21,11 +21,12 @@ import EventEmitter from '@mm-redux/utils/event_emitter';
 import CustomStatusSuggestion from '@screens/custom_status/custom_status_suggestion';
 import {t} from '@utils/i18n';
 import {preventDoubleTap} from '@utils/tap';
-import {getCurrentDateAndTimeForTimezone} from '@utils/timezone';
+import {getCurrentMomentForTimezone} from '@utils/timezone';
 import moment from 'moment';
 import {changeOpacity, getKeyboardAppearanceFromTheme, makeStyleSheetFromTheme} from '@utils/theme';
 import {Moment} from 'moment-timezone';
 import {durationValues} from '@constants/custom_status';
+import CustomStatusExpiry from '@components/custom_status/custom_status_expiry';
 
 type DefaultUserCustomStatus = {
     emoji: string;
@@ -102,7 +103,7 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
 
         if (props.isTimezoneEnabled) {
             const timezone = userTimezone;
-            currentTime = getCurrentDateAndTimeForTimezone(timezone);
+            currentTime = getCurrentMomentForTimezone(timezone);
         }
 
         let initialCustomExpiryTime: Moment = currentTime;
@@ -335,8 +336,8 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
     };
 
     render() {
-        const {emoji, text, duration} = this.state;
-        const {theme, isLandscape, intl} = this.props;
+        const {emoji, text, duration, expires_at} = this.state;
+        const {theme, isLandscape, intl, userTimezone} = this.props;
 
         const isStatusSet = emoji || text;
         const style = getStyleSheet(theme);
@@ -363,20 +364,30 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
             </TouchableOpacity>
         );
 
+        const renderClearAfterTime = duration && duration !== CustomStatusDuration.DATE_AND_TIME ? (
+            <FormattedText
+                id={durationValues[duration].id}
+                defaultMessage={durationValues[duration].defaultMessage}
+                style={style.expiryTime}
+            />
+        ) : (
+            <View style={style.expiryTime}>
+                <CustomStatusExpiry
+                    timezone={userTimezone}
+                    time={expires_at.toDate()}
+                    theme={theme}
+                />
+            </View>
+        );
+
         const clearAfter = (
             <TouchableOpacity
                 testID={`custom_status.duration.${duration}`}
                 onPress={this.openClearAfterModal}
             >
                 <View style={style.inputContainer}>
-                    <Text style={style.expiryTime}>{intl.formatMessage({id: 'mobile.custom_status.clear_after', defaultMessage: 'Clear After'})}</Text>
-                    {duration ? (
-                        <FormattedText
-                            id={durationValues[duration].id}
-                            defaultMessage={durationValues[duration].defaultMessage}
-                            style={style.expiryTimeShow}
-                        />
-                    ) : null}
+                    <Text style={style.expiryTimeLabel}>{intl.formatMessage({id: 'mobile.custom_status.clear_after', defaultMessage: 'Clear After'})}</Text>
+                    {renderClearAfterTime}
                     <CompassIcon
                         name='chevron-right'
                         size={24}
@@ -472,6 +483,7 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
             position: 'relative',
             flexDirection: 'row',
             alignItems: 'center',
+            height: 48,
             borderTopWidth: 1,
             borderBottomWidth: 1,
             borderTopColor: changeOpacity(theme.centerChannelColor, 0.1),
@@ -485,7 +497,7 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
             fontSize: 17,
             paddingHorizontal: 52,
             textAlignVertical: 'center',
-            height: 48,
+            height: '100%',
         },
         icon: {
             color: changeOpacity(theme.centerChannelColor, 0.64),
@@ -496,7 +508,7 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
         iconContainer: {
             position: 'absolute',
             left: 14,
-            top: 12,
+            top: 10,
         },
         separator: {
             marginTop: 32,
@@ -523,14 +535,13 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
             height: 1,
             marginHorizontal: 16,
         },
-        expiryTime: {
+        expiryTimeLabel: {
             fontSize: 17,
             paddingLeft: 16,
-            height: 48,
             textAlignVertical: 'center',
             color: theme.centerChannelColor,
         },
-        expiryTimeShow: {
+        expiryTime: {
             position: 'absolute',
             right: 30,
             color: theme.centerChannelColor,
