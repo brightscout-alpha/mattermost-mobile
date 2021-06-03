@@ -101,21 +101,12 @@ const CustomStatusExpiry = (props: Props) => {
 
     return (
         <Text testID={props.testID}>
-            <Text style={styleProp || styles.text}>{' ('}</Text>
-            <FormattedText
-                testID={'custom_status.until'}
-                id='custom_status.until'
-                defaultMessage='Until'
-                style={styleProp || styles.text}
-            />
-            <Text style={styleProp || styles.text}>{' '}</Text>
             {showToday}
             {showTomorrow}
             {isToday || isTomorrow ? <Text>{' '}</Text> : null}
             {showTime}
             {showDay}
             {showDate}
-            <Text style={styleProp || styles.text}>{') '}</Text>
         </Text>
     );
 };

@@ -15,10 +15,11 @@ import {loadBot} from '@mm-redux/actions/bots';
 import {getRemoteClusterInfo} from '@mm-redux/actions/remote_cluster';
 import {getBotAccounts} from '@mm-redux/selectors/entities/bots';
 import {getCurrentUserId} from '@mm-redux/selectors/entities/users';
-import {getCustomStatus, isCustomStatusEnabled} from '@selectors/custom_status';
+import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from '@selectors/custom_status';
 
 import UserProfile from './user_profile';
 
+const getCustomStatus = makeGetCustomStatus();
 function makeMapStateToProps() {
     return (state, ownProps) => {
         const config = getConfig(state);
@@ -43,6 +44,7 @@ function makeMapStateToProps() {
             isMyUser: getCurrentUserId(state) === ownProps.userId,
             remoteClusterInfo: state.entities.remoteCluster.info[user?.remote_id],
             customStatus,
+            isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
         };
     };
 }

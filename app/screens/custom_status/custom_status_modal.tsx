@@ -58,6 +58,7 @@ interface Props extends NavigationComponentProps {
         removeRecentCustomStatus: (customStatus: UserCustomStatus) => ActionFunc;
     };
     isTimezoneEnabled: boolean;
+    isCustomStatusExpired: boolean;
 }
 
 type State = {
@@ -87,7 +88,7 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        const {customStatus, userTimezone} = props;
+        const {customStatus, userTimezone, isCustomStatusExpired} = props;
 
         this.rightButton.text = props.intl.formatMessage({id: 'mobile.custom_status.modal_confirm', defaultMessage: 'Done'});
         this.rightButton.color = props.theme.sidebarHeaderTextColor;
@@ -108,15 +109,15 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
 
         let initialCustomExpiryTime: Moment = currentTime;
 
-        const isCurrentCustomStatusSet = customStatus?.text || customStatus?.emoji;
+        const isCurrentCustomStatusSet = !isCustomStatusExpired && (customStatus?.text || customStatus?.emoji);
         if (isCurrentCustomStatusSet && customStatus?.duration === CustomStatusDuration.DATE_AND_TIME && customStatus?.expires_at) {
             initialCustomExpiryTime = moment(customStatus?.expires_at);
         }
 
         this.state = {
-            emoji: props.customStatus?.emoji || '',
-            text: props.customStatus?.text || '',
-            duration: props.customStatus?.duration || defaultDuration,
+            emoji: isCurrentCustomStatusSet ? customStatus?.emoji : '',
+            text: isCurrentCustomStatusSet ? customStatus?.text : '',
+            duration: isCurrentCustomStatusSet ? customStatus?.duration : defaultDuration,
             expires_at: initialCustomExpiryTime,
         };
     }
@@ -376,6 +377,10 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
                     timezone={userTimezone}
                     time={expires_at.toDate()}
                     theme={theme}
+                    styleProp={{
+                        fontSize: 15,
+                        color: changeOpacity(theme.centerChannelColor, 0.5),
+                    }}
                 />
             </View>
         );
@@ -544,12 +549,12 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
         expiryTime: {
             position: 'absolute',
             right: 30,
-            color: theme.centerChannelColor,
+            color: changeOpacity(theme.centerChannelColor, 0.5),
         },
         rightIcon: {
             position: 'absolute',
             right: 6,
-            color: changeOpacity(theme.centerChannelColor, 0.32),
+            color: changeOpacity(theme.centerChannelColor, 0.5),
         },
     };
 });

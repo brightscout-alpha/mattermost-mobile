@@ -3,7 +3,7 @@
 
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, Text} from 'react-native';
 
 import {General} from '@mm-redux/constants';
 import EventEmitter from '@mm-redux/utils/event_emitter';
@@ -40,6 +40,7 @@ export default class SettingsSidebarBase extends PureComponent {
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         customStatus: PropTypes.object,
         userTimezone: PropTypes.string,
+        isCustomStatusExpired: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -243,7 +244,7 @@ export default class SettingsSidebarBase extends PureComponent {
     }
 
     renderCustomStatus = () => {
-        const {isCustomStatusEnabled, customStatus, theme, userTimezone} = this.props;
+        const {isCustomStatusEnabled, customStatus, theme, userTimezone, isCustomStatusExpired} = this.props;
         const {showStatus, showRetryMessage} = this.state;
 
         if (!isCustomStatusEnabled) {
@@ -251,7 +252,7 @@ export default class SettingsSidebarBase extends PureComponent {
         }
 
         const style = getStyleSheet(theme);
-        const isStatusSet = customStatus?.emoji && showStatus;
+        const isStatusSet = !isCustomStatusExpired && customStatus?.emoji && showStatus;
 
         const customStatusEmoji = (
             <View
@@ -276,17 +277,23 @@ export default class SettingsSidebarBase extends PureComponent {
 
         const customStatusExpiryTime = isStatusSet && customStatus?.duration !== CustomStatusDuration.DONT_CLEAR ?
             (
-                <View style={{flexDirection: 'row'}}>
+                <Text style={style.customStatusExpiry}>
+                    <FormattedText
+                        testID={'custom_status.until'}
+                        id='custom_status.until'
+                        defaultMessage='Until'
+                    />
+                    <Text>{' '}</Text>
                     <CustomStatusExpiry
                         time={customStatus?.expires_at}
                         timezone={timezone}
                         theme={theme}
                         styleProp={{
                             fontSize: 15,
-                            color: changeOpacity(theme.centerChannelColor, 0.5),
+                            color: changeOpacity(theme.centerChannelColor, 0.35),
                         }}
                     />
-                </View>
+                </Text>
             ) : null;
 
         const clearButton = isStatusSet ?
@@ -448,6 +455,11 @@ const getStyleSheet = makeStyleSheetFromTheme((theme) => {
         },
         customStatusIcon: {
             color: changeOpacity(theme.centerChannelColor, 0.64),
+        },
+        customStatusExpiry: {
+            paddingTop: 3,
+            fontSize: 15,
+            color: changeOpacity(theme.centerChannelColor, 0.35),
         },
         clearButton: {
             position: 'absolute',

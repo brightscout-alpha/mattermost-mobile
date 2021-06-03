@@ -64,6 +64,7 @@ export default class UserProfile extends PureComponent {
         remoteClusterInfo: PropTypes.object,
         customStatus: PropTypes.object,
         userTimezone: PropTypes.string,
+        isCustomStatusExpired: PropTypes.bool.isRequired,
     };
 
     static contextTypes = {
@@ -236,9 +237,9 @@ export default class UserProfile extends PureComponent {
 
     buildCustomStatusBlock = () => {
         const {formatMessage} = this.context.intl;
-        const {customStatus, theme, isMyUser, userTimezone} = this.props;
+        const {customStatus, theme, isMyUser, userTimezone, isCustomStatusExpired} = this.props;
         const style = createStyleSheet(theme);
-        const isStatusSet = customStatus?.emoji;
+        const isStatusSet = !isCustomStatusExpired && customStatus?.emoji;
 
         if (!isStatusSet) {
             return null;
@@ -250,12 +251,22 @@ export default class UserProfile extends PureComponent {
 
         const customStatusExpiryTime = isStatusSet && customStatus?.duration !== CustomStatusDuration.DONT_CLEAR ?
             (
-                <CustomStatusExpiry
-                    time={customStatus?.expires_at}
-                    timezone={timezone}
-                    theme={theme}
-                    styleProp={style.customStatusExpiry}
-                />
+                <Text style={style.customStatusExpiry}>
+                    <Text>{' ('}</Text>
+                    <FormattedText
+                        testID={'custom_status.until'}
+                        id='custom_status.until'
+                        defaultMessage='Until'
+                    />
+                    <Text>{' '}</Text>
+                    <CustomStatusExpiry
+                        time={customStatus?.expires_at}
+                        timezone={timezone}
+                        theme={theme}
+                        styleProp={style.customStatusExpiry}
+                    />
+                    <Text>{')'}</Text>
+                </Text>
             ) : null;
 
         return (

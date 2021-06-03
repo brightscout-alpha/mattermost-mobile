@@ -9,12 +9,13 @@ import {setStatus} from '@mm-redux/actions/users';
 import {getTheme} from '@mm-redux/selectors/entities/preferences';
 import {getCurrentUserTimezone} from '@mm-redux/selectors/entities/timezone';
 import {getCurrentUser, getStatusForUserId} from '@mm-redux/selectors/entities/users';
-import {isCustomStatusEnabled, getCustomStatus} from '@selectors/custom_status';
+import {isCustomStatusEnabled, isCustomStatusExpired, makeGetCustomStatus} from '@selectors/custom_status';
 
 import {logout} from 'app/actions/views/user';
 
 import SettingsSidebar from './settings_sidebar';
 
+const getCustomStatus = makeGetCustomStatus();
 function makeMapStateToProps() {
     return (state) => {
         const currentUser = getCurrentUser(state) || {};
@@ -31,6 +32,7 @@ function makeMapStateToProps() {
             theme: getTheme(state),
             isCustomStatusEnabled: customStatusEnabled,
             customStatus,
+            isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
         };
     };
 }
