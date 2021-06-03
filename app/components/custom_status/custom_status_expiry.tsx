@@ -15,16 +15,19 @@ import {Text, TextStyle} from 'react-native';
 import FormattedText from '@components/formatted_text';
 import {Theme} from '@mm-redux/types/preferences';
 import {makeStyleSheetFromTheme} from '@utils/theme';
+import {getCurrentUserTimezone} from '@mm-redux/selectors/entities/timezone';
 type Props = {
-    timezone?: string;
     theme: Theme;
     time: Date;
     styleProp?: TextStyle;
     testID?: string;
+    showPrefix?: boolean;
+    withinBrackets?: boolean;
 }
 
 const CustomStatusExpiry = (props: Props) => {
-    const {timezone, time, theme, styleProp} = props;
+    const {time, theme, styleProp, showPrefix, withinBrackets} = props;
+    const timezone = useSelector(getCurrentUserTimezone);
     const styles = createStyleSheet(theme);
     const militaryTime = useSelector((state: GlobalState) => getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, 'use_military_time'));
     const currentMomentTime = getCurrentMomentForTimezone(timezone);
@@ -61,7 +64,6 @@ const CustomStatusExpiry = (props: Props) => {
             format='dddd'
             timezone={timezone}
             value={expiryMomentTime}
-            style={styleProp || styles.text}
         />
     );
 
@@ -70,7 +72,6 @@ const CustomStatusExpiry = (props: Props) => {
             format='MMM DD, YYYY'
             timezone={timezone}
             value={expiryMomentTime}
-            style={styleProp || styles.text}
         />
     );
 
@@ -79,7 +80,6 @@ const CustomStatusExpiry = (props: Props) => {
             hour12={!militaryTime}
             timezone={timezone}
             value={expiryMomentTime}
-            style={styleProp || styles.text}
         />
     );
 
@@ -87,7 +87,6 @@ const CustomStatusExpiry = (props: Props) => {
         <FormattedText
             id='custom_status.expiry_time.tomorrow'
             defaultMessage='Tomorrow'
-            style={styleProp || styles.text}
         />
     );
 
@@ -95,18 +94,32 @@ const CustomStatusExpiry = (props: Props) => {
         <FormattedText
             id='custom_status.expiry_time.today'
             defaultMessage='Today'
-            style={styleProp || styles.text}
         />
     );
 
+    const prefix = showPrefix && (
+        <Text>
+            <FormattedText
+                id='custom_status.expiry.until'
+                defaultMessage='Until'
+            />{' '}
+        </Text>
+    );
+
     return (
-        <Text testID={props.testID}>
+        <Text
+            testID={props.testID}
+            style={styleProp || styles.text}
+        >
+            {withinBrackets && '('}
+            {prefix}
             {showToday}
             {showTomorrow}
             {isToday || isTomorrow ? <Text>{' '}</Text> : null}
             {showTime}
             {showDay}
             {showDate}
+            {withinBrackets && ')'}
         </Text>
     );
 };

@@ -15,8 +15,8 @@ import CustomStatusModal from '@screens/custom_status/custom_status_modal';
 import {isLandscape} from '@selectors/device';
 import {UserCustomStatus} from '@mm-redux/types/users';
 
-const getCustomStatus = makeGetCustomStatus();
 function makeMapStateToProps() {
+    const getCustomStatus = makeGetCustomStatus();
     return (state: GlobalState) => {
         const customStatus: UserCustomStatus | undefined = getCustomStatus(state);
         const recentCustomStatuses = getRecentCustomStatuses(state);

@@ -7,7 +7,6 @@ import {connect} from 'react-redux';
 import {unsetCustomStatus} from '@actions/views/custom_status';
 import {setStatus} from '@mm-redux/actions/users';
 import {getTheme} from '@mm-redux/selectors/entities/preferences';
-import {getCurrentUserTimezone} from '@mm-redux/selectors/entities/timezone';
 import {getCurrentUser, getStatusForUserId} from '@mm-redux/selectors/entities/users';
 import {isCustomStatusEnabled, isCustomStatusExpired, makeGetCustomStatus} from '@selectors/custom_status';
 
@@ -15,17 +14,14 @@ import {logout} from 'app/actions/views/user';
 
 import SettingsSidebar from './settings_sidebar';
 
-const getCustomStatus = makeGetCustomStatus();
 function makeMapStateToProps() {
+    const getCustomStatus = makeGetCustomStatus();
     return (state) => {
         const currentUser = getCurrentUser(state) || {};
         const status = getStatusForUserId(state, currentUser.id);
-        const userTimezone = getCurrentUserTimezone(state);
-
         const customStatusEnabled = isCustomStatusEnabled(state);
         const customStatus = customStatusEnabled ? getCustomStatus(state) : undefined;
         return {
-            userTimezone,
             currentUser,
             locale: currentUser?.locale,
             status,

@@ -39,7 +39,6 @@ export default class SettingsSidebarBase extends PureComponent {
         theme: PropTypes.object.isRequired,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         customStatus: PropTypes.object,
-        userTimezone: PropTypes.string,
         isCustomStatusExpired: PropTypes.bool.isRequired,
     };
 
@@ -244,7 +243,7 @@ export default class SettingsSidebarBase extends PureComponent {
     }
 
     renderCustomStatus = () => {
-        const {isCustomStatusEnabled, customStatus, theme, userTimezone, isCustomStatusExpired} = this.props;
+        const {isCustomStatusEnabled, customStatus, theme, isCustomStatusExpired} = this.props;
         const {showStatus, showRetryMessage} = this.state;
 
         if (!isCustomStatusEnabled) {
@@ -273,25 +272,15 @@ export default class SettingsSidebarBase extends PureComponent {
             </View>
         );
 
-        const timezone = userTimezone;
-
         const customStatusExpiryTime = isStatusSet && customStatus?.duration !== CustomStatusDuration.DONT_CLEAR ?
             (
-                <Text style={style.customStatusExpiry}>
-                    <FormattedText
-                        testID={'custom_status.until'}
-                        id='custom_status.until'
-                        defaultMessage='Until'
-                    />
-                    <Text>{' '}</Text>
+                <Text style={style.customStatusExpiryContainer}>
                     <CustomStatusExpiry
                         time={customStatus?.expires_at}
-                        timezone={timezone}
                         theme={theme}
-                        styleProp={{
-                            fontSize: 15,
-                            color: changeOpacity(theme.centerChannelColor, 0.35),
-                        }}
+                        styleProp={style.customStatusExpiryText}
+                        withinBrackets={true}
+                        showPrefix={true}
                     />
                 </Text>
             ) : null;
@@ -456,8 +445,12 @@ const getStyleSheet = makeStyleSheetFromTheme((theme) => {
         customStatusIcon: {
             color: changeOpacity(theme.centerChannelColor, 0.64),
         },
-        customStatusExpiry: {
+        customStatusExpiryContainer: {
             paddingTop: 3,
+            fontSize: 15,
+            color: changeOpacity(theme.centerChannelColor, 0.35),
+        },
+        customStatusExpiryText: {
             fontSize: 15,
             color: changeOpacity(theme.centerChannelColor, 0.35),
         },

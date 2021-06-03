@@ -9,7 +9,7 @@ import {unsetCustomStatus} from '@actions/views/custom_status';
 import {makeDirectChannel} from '@actions/views/more_dms';
 import {getConfig} from '@mm-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, getTheme, getBool} from '@mm-redux/selectors/entities/preferences';
-import {getCurrentUserTimezone, isTimezoneEnabled} from '@mm-redux/selectors/entities/timezone';
+import {isTimezoneEnabled} from '@mm-redux/selectors/entities/timezone';
 import Preferences from '@mm-redux/constants/preferences';
 import {loadBot} from '@mm-redux/actions/bots';
 import {getRemoteClusterInfo} from '@mm-redux/actions/remote_cluster';
@@ -19,19 +19,17 @@ import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 
 
 import UserProfile from './user_profile';
 
-const getCustomStatus = makeGetCustomStatus();
 function makeMapStateToProps() {
+    const getCustomStatus = makeGetCustomStatus();
     return (state, ownProps) => {
         const config = getConfig(state);
         const {createChannel: createChannelRequest} = state.requests.channels;
         const militaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, 'use_military_time');
         const enableTimezone = isTimezoneEnabled(state);
         const user = state.entities.users.profiles[ownProps.userId];
-        const userTimezone = getCurrentUserTimezone(state);
 
-        const customStatus = isCustomStatusEnabled(state) ? getCustomStatus(state) : undefined;
+        const customStatus = isCustomStatusEnabled(state) ? getCustomStatus(state, user?.id) : undefined;
         return {
-            userTimezone,
             config,
             createChannelRequest,
             currentDisplayName: state.views.channel.displayName,

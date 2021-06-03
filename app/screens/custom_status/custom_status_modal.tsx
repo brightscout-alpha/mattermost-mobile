@@ -103,8 +103,7 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
         let currentTime = moment();
 
         if (props.isTimezoneEnabled) {
-            const timezone = userTimezone;
-            currentTime = getCurrentMomentForTimezone(timezone);
+            currentTime = getCurrentMomentForTimezone(userTimezone);
         }
 
         let initialCustomExpiryTime: Moment = currentTime;
@@ -164,22 +163,21 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
 
     calculateExpiryTime = (duration: CustomStatusDuration): string => {
         const {userTimezone} = this.props;
-        const timezone = userTimezone;
-        const currentTime = timezone ? moment().tz(timezone) : new Date();
+        const currentTime = getCurrentMomentForTimezone(userTimezone);
         const {expires_at} = this.state;
         switch (duration) {
         case defaultDuration:
             return '';
         case CustomStatusDuration.THIRTY_MINUTES:
-            return moment(currentTime).add(30, 'minutes').seconds(0).milliseconds(0).toISOString();
+            return currentTime.add(30, 'minutes').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.ONE_HOUR:
-            return moment(currentTime).add(1, 'hour').seconds(0).milliseconds(0).toISOString();
+            return currentTime.add(1, 'hour').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.FOUR_HOURS:
-            return moment(currentTime).add(4, 'hours').seconds(0).milliseconds(0).toISOString();
+            return currentTime.add(4, 'hours').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.TODAY:
-            return moment(currentTime).endOf('day').toISOString();
+            return currentTime.endOf('day').toISOString();
         case CustomStatusDuration.THIS_WEEK:
-            return moment(currentTime).endOf('week').toISOString();
+            return currentTime.endOf('week').toISOString();
         case CustomStatusDuration.DATE_AND_TIME:
             return expires_at.toISOString();
         default:
@@ -338,7 +336,7 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
 
     render() {
         const {emoji, text, duration, expires_at} = this.state;
-        const {theme, isLandscape, intl, userTimezone} = this.props;
+        const {theme, isLandscape, intl} = this.props;
 
         const isStatusSet = emoji || text;
         const style = getStyleSheet(theme);
@@ -374,7 +372,6 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
         ) : (
             <View style={style.expiryTime}>
                 <CustomStatusExpiry
-                    timezone={userTimezone}
                     time={expires_at.toDate()}
                     theme={theme}
                     styleProp={{
@@ -464,7 +461,6 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
                             {this.renderCustomStatusSuggestions(style)}
                         </View>
                         <View style={style.separator}/>
-
                     </ScrollView>
                 </KeyboardAvoidingView>
             </SafeAreaView>

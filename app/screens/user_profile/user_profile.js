@@ -63,7 +63,6 @@ export default class UserProfile extends PureComponent {
         isMyUser: PropTypes.bool.isRequired,
         remoteClusterInfo: PropTypes.object,
         customStatus: PropTypes.object,
-        userTimezone: PropTypes.string,
         isCustomStatusExpired: PropTypes.bool.isRequired,
     };
 
@@ -237,7 +236,7 @@ export default class UserProfile extends PureComponent {
 
     buildCustomStatusBlock = () => {
         const {formatMessage} = this.context.intl;
-        const {customStatus, theme, isMyUser, userTimezone, isCustomStatusExpired} = this.props;
+        const {customStatus, theme, isMyUser, isCustomStatusExpired} = this.props;
         const style = createStyleSheet(theme);
         const isStatusSet = !isCustomStatusExpired && customStatus?.emoji;
 
@@ -247,25 +246,16 @@ export default class UserProfile extends PureComponent {
 
         const label = formatMessage({id: 'user.settings.general.status', defaultMessage: 'Status'});
 
-        const timezone = userTimezone;
-
         const customStatusExpiryTime = isStatusSet && customStatus?.duration !== CustomStatusDuration.DONT_CLEAR ?
             (
                 <Text style={style.customStatusExpiry}>
-                    <Text>{' ('}</Text>
-                    <FormattedText
-                        testID={'custom_status.until'}
-                        id='custom_status.until'
-                        defaultMessage='Until'
-                    />
-                    <Text>{' '}</Text>
                     <CustomStatusExpiry
                         time={customStatus?.expires_at}
-                        timezone={timezone}
                         theme={theme}
                         styleProp={style.customStatusExpiry}
+                        showPrefix={true}
+                        withinBrackets={true}
                     />
-                    <Text>{')'}</Text>
                 </Text>
             ) : null;
 
@@ -273,7 +263,7 @@ export default class UserProfile extends PureComponent {
             <View
                 testID='user_profile.custom_status'
             >
-                <Text style={style.header}>{label}{customStatusExpiryTime}</Text>
+                <Text style={style.header}>{label}{' '}{customStatusExpiryTime}</Text>
                 <View style={style.customStatus}>
                     <Text
                         style={style.iconContainer}

@@ -28,6 +28,7 @@ import {changeOpacity, makeStyleSheetFromTheme} from '@utils/theme';
 import mattermostManaged from 'app/mattermost_managed';
 import {CustomStatusDuration} from '@mm-redux/types/users';
 import CustomStatusExpiry from '@components/custom_status/custom_status_expiry';
+
 export default class ChannelInfoHeader extends React.PureComponent {
     static propTypes = {
         createAt: PropTypes.number.isRequired,
@@ -165,17 +166,11 @@ export default class ChannelInfoHeader extends React.PureComponent {
         const customStatusExpiry = customStatus?.emoji && customStatus?.duration !== CustomStatusDuration.DONT_CLEAR ?
             (
                 <Text style={style.customStatusExpiry}>
-                    <FormattedText
-                        testID={'custom_status.until'}
-                        id='custom_status.until'
-                        defaultMessage='Until'
-                    />
-                    <Text>{' '}</Text>
                     <CustomStatusExpiry
                         time={customStatus.expires_at}
-                        timezone={timeZone}
                         theme={theme}
                         styleProp={style.customStatusExpiry}
+                        showPrefix={true}
                     />
                 </Text>
             ) : null;

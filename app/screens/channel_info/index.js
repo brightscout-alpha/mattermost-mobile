@@ -21,8 +21,8 @@ import {isGuest} from '@utils/users';
 
 import ChannelInfo from './channel_info';
 
-const getCustomStatus = makeGetCustomStatus();
 function makeMapStateToProps() {
+    const getCustomStatus = makeGetCustomStatus();
     return (state) => {
         const currentChannel = getCurrentChannel(state) || {};
         const currentChannelCreator = getUser(state, currentChannel.creator_id);

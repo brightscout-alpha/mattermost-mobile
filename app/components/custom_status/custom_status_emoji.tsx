@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 
 import Emoji from '@components/emoji';
 import {GlobalState} from '@mm-redux/types/store';
-import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from '@selectors/custom_status';
+import {makeGetCustomStatus, isCustomStatusExpired} from '@selectors/custom_status';
 
 interface ComponentProps {
     emojiSize?: number;
@@ -18,11 +18,10 @@ interface ComponentProps {
 
 const CustomStatusEmoji = ({emojiSize, userID, style, testID}: ComponentProps) => {
     const getCustomStatus = makeGetCustomStatus();
-    const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => getCustomStatus(state, userID));
     const customStatusExpired = useSelector((state: GlobalState) => isCustomStatusExpired(state, customStatus));
 
-    if (!(customStatusEnabled && customStatus?.emoji && !customStatusExpired)) {
+    if (!(customStatus?.emoji && !customStatusExpired)) {
         return null;
     }
 
