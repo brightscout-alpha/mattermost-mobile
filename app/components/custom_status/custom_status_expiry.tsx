@@ -43,6 +43,7 @@ const CustomStatusExpiry = (props: Props) => {
     let isTomorrow = false;
     let isToday = false;
     let useDate = false;
+    let format = '';
 
     if (expiryMomentTime.isSame(todayEndTime)) {
         isToday = true;
@@ -59,31 +60,23 @@ const CustomStatusExpiry = (props: Props) => {
 
     const isCurrentYear = currentMomentTime.get('y') === expiryMomentTime.get('y');
 
-    useDate = !(isToday || useTime || useDay);
+    useDate = !(isToday || useTime || useDay || !isCurrentYear);
 
-    const showDay = useDay ? (
+    if (useDay) {
+        format = 'dddd';
+    } else if (useDate) {
+        format = 'MMM DD';
+    } else if (!isCurrentYear) {
+        format = 'MMM DD, YYYY';
+    }
+
+    const showDayorDate = (useDay || useDate || !isCurrentYear) ? (
         <FormattedDate
-            format='dddd'
+            format={format}
             timezone={timezone}
             value={expiryMomentTime}
         />
     ) : null;
-
-    const showDate = useDate ? (
-        <FormattedDate
-            format='MMM DD'
-            timezone={timezone}
-            value={expiryMomentTime}
-        />
-    ) : null;
-
-    const showYear = isCurrentYear ? null : (
-        <FormattedDate
-            format=', YYYY'
-            timezone={timezone}
-            value={expiryMomentTime}
-        />
-    );
 
     const showTime = useTime ? (
         <FormattedTime
@@ -128,9 +121,7 @@ const CustomStatusExpiry = (props: Props) => {
             {showToday}
             {showTomorrow}
             {showTime}
-            {showDay}
-            {showDate}
-            {showYear}
+            {showDayorDate}
             {withinBrackets ? ')' : null}
         </Text>
     );
