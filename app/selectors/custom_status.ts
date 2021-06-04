@@ -26,7 +26,11 @@ export function makeGetCustomStatus(): (state: GlobalState, userID?: string) => 
 }
 
 export function isCustomStatusExpired(state: GlobalState, customStatus?: UserCustomStatus) {
-    if (!customStatus || customStatus.duration === CustomStatusDuration.DONT_CLEAR) {
+    if (!customStatus) {
+        return true;
+    }
+
+    if (customStatus.duration === CustomStatusDuration.DONT_CLEAR) {
         return false;
     }
 

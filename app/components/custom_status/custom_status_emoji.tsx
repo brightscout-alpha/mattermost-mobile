@@ -21,7 +21,7 @@ const CustomStatusEmoji = ({emojiSize, userID, style, testID}: ComponentProps) =
     const customStatus = useSelector((state: GlobalState) => getCustomStatus(state, userID));
     const customStatusExpired = useSelector((state: GlobalState) => isCustomStatusExpired(state, customStatus));
 
-    if (!(customStatus?.emoji && !customStatusExpired)) {
+    if (!customStatus?.emoji || customStatusExpired) {
         return null;
     }
 

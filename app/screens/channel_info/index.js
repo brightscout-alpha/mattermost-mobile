@@ -36,9 +36,9 @@ function makeMapStateToProps() {
 
         let teammateId;
         let isTeammateGuest = false;
-        let customStatusEnabled;
+        let customStatusEnabled = false;
         let customStatus;
-        let customStatusExpired;
+        let customStatusExpired = true;
         const isDirectMessage = currentChannel.type === General.DM_CHANNEL;
 
         if (isDirectMessage) {
@@ -51,9 +51,6 @@ function makeMapStateToProps() {
             customStatusEnabled = isCustomStatusEnabled(state);
             customStatus = customStatusEnabled ? getCustomStatus(state, teammateId) : undefined;
             customStatusExpired = isCustomStatusExpired(state, customStatus);
-            if (customStatusExpired) {
-                customStatus = undefined;
-            }
         }
 
         if (currentChannel.type === General.GM_CHANNEL) {
@@ -73,6 +70,7 @@ function makeMapStateToProps() {
             theme: getTheme(state),
             customStatus,
             isCustomStatusEnabled: customStatusEnabled,
+            isCustomStatusExpired: customStatusExpired,
         };
     };
 }

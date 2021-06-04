@@ -43,7 +43,7 @@ const defaultCustomStatusSuggestions: DefaultUserCustomStatus[] = [
     {emoji: 'palm_tree', message: t('custom_status.suggestions.on_a_vacation'), messageDefault: 'On a vacation', durationDefault: CustomStatusDuration.THIS_WEEK},
 ];
 
-const defaultDuration: CustomStatusDuration = CustomStatusDuration.DONT_CLEAR;
+const defaultDuration: CustomStatusDuration = CustomStatusDuration.TODAY;
 
 interface Props extends NavigationComponentProps {
     intl: typeof intlShape;
@@ -166,7 +166,7 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
         const currentTime = getCurrentMomentForTimezone(userTimezone);
         const {expires_at} = this.state;
         switch (duration) {
-        case defaultDuration:
+        case CustomStatusDuration.DONT_CLEAR:
             return '';
         case CustomStatusDuration.THIRTY_MINUTES:
             return currentTime.add(30, 'minutes').seconds(0).milliseconds(0).toISOString();

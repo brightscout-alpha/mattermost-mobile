@@ -50,8 +50,9 @@ export default class ChannelInfo extends PureComponent {
         teammateId: PropTypes.string,
         theme: PropTypes.object.isRequired,
         customStatus: PropTypes.object,
-        isCustomStatusEnabled: PropTypes.bool,
+        isCustomStatusEnabled: PropTypes.bool.isRequired,
         userTimezone: PropTypes.string,
+        isCustomStatusExpired: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -179,6 +180,7 @@ export default class ChannelInfo extends PureComponent {
             isTeammateGuest,
             customStatus,
             isCustomStatusEnabled,
+            isCustomStatusExpired,
         } = this.props;
 
         const style = getStyleSheet(theme);
@@ -215,6 +217,7 @@ export default class ChannelInfo extends PureComponent {
                         testID='channel_info.header'
                         customStatus={customStatus}
                         isCustomStatusEnabled={isCustomStatusEnabled}
+                        isCustomStatusExpired={isCustomStatusExpired}
                         timeZone={userTimezone}
                     />
                     }

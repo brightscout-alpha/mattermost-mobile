@@ -248,22 +248,24 @@ export default class UserProfile extends PureComponent {
 
         const customStatusExpiryTime = isStatusSet && customStatus?.duration !== CustomStatusDuration.DONT_CLEAR ?
             (
-                <Text style={style.customStatusExpiry}>
-                    <CustomStatusExpiry
-                        time={customStatus?.expires_at}
-                        theme={theme}
-                        styleProp={style.customStatusExpiry}
-                        showPrefix={true}
-                        withinBrackets={true}
-                    />
-                </Text>
+                <CustomStatusExpiry
+                    time={customStatus?.expires_at}
+                    theme={theme}
+                    styleProp={style.customStatusExpiry}
+                    showPrefix={true}
+                    withinBrackets={true}
+                />
             ) : null;
 
         return (
             <View
                 testID='user_profile.custom_status'
             >
-                <Text style={style.header}>{label}{' '}{customStatusExpiryTime}</Text>
+                <Text style={style.header}>
+                    {label}
+                    {' '}
+                    {customStatusExpiryTime}
+                </Text>
                 <View style={style.customStatus}>
                     <Text
                         style={style.iconContainer}
