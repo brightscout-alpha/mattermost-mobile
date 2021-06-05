@@ -7,11 +7,13 @@ import {shallowWithIntl} from 'test/intl-test-helper';
 import Preferences from '@mm-redux/constants/preferences';
 
 import SettingsSidebar from './settings_sidebar.ios';
+import {CustomStatusDuration} from '@mm-redux/types/users';
 
 describe('SettingsSidebar', () => {
     const customStatus = {
         emoji: 'calendar',
         text: 'In a meeting',
+        duration: CustomStatusDuration.DONT_CLEAR,
     };
 
     const baseProps = {
@@ -26,6 +28,7 @@ describe('SettingsSidebar', () => {
         status: 'offline',
         theme: Preferences.THEMES.default,
         isCustomStatusEnabled: false,
+        isCustomStatusExpired: false,
         customStatus,
     };
 

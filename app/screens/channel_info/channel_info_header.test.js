@@ -33,7 +33,6 @@ describe('channel_info_header', () => {
         memberCount: 3,
         displayName: 'Channel name',
         header: 'Header string',
-        onPermalinkPress: jest.fn(),
         purpose: 'Purpose string',
         status: 'status',
         theme: Preferences.THEMES.default,
@@ -45,6 +44,7 @@ describe('channel_info_header', () => {
         isGroupConstrained: false,
         testID: 'channel_info.header',
         isCustomStatusEnabled: false,
+        isCustomStatusExpired: false,
     };
 
     test('should match snapshot', async () => {

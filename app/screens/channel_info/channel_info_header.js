@@ -36,8 +36,8 @@ export default class ChannelInfoHeader extends React.PureComponent {
         memberCount: PropTypes.number,
         displayName: PropTypes.string.isRequired,
         header: PropTypes.string,
-        onPermalinkPress: PropTypes.func,
         purpose: PropTypes.string,
+        shared: PropTypes.bool,
         teammateId: PropTypes.string,
         theme: PropTypes.object.isRequired,
         type: PropTypes.string.isRequired,
@@ -46,9 +46,10 @@ export default class ChannelInfoHeader extends React.PureComponent {
         hasGuests: PropTypes.bool.isRequired,
         isGroupConstrained: PropTypes.bool,
         testID: PropTypes.string,
-        timeZone: PropTypes.string,
+        timezone: PropTypes.string,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
+        isCustomStatusExpired: PropTypes.bool.isRequired,
     };
 
     static contextTypes = {
@@ -138,17 +139,18 @@ export default class ChannelInfoHeader extends React.PureComponent {
             displayName,
             header,
             memberCount,
-            onPermalinkPress,
             purpose,
+            shared,
             teammateId,
             theme,
             type,
             isArchived,
             isGroupConstrained,
             testID,
-            timeZone,
+            timezone,
             customStatus,
             isCustomStatusEnabled,
+            isCustomStatusExpired,
         } = this.props;
 
         const style = getStyleSheet(theme);
@@ -161,11 +163,14 @@ export default class ChannelInfoHeader extends React.PureComponent {
 
         const customStatusExpiry = customStatus?.emoji && customStatus?.duration !== CustomStatusDuration.DONT_CLEAR ?
             (
-                <CustomStatusExpiry
-                    time={customStatus.expires_at}
-                    timezone={timeZone}
-                    theme={theme}
-                />
+                <Text style={style.customStatusExpiry}>
+                    <CustomStatusExpiry
+                        time={customStatus.expires_at}
+                        theme={theme}
+                        styleProp={style.customStatusExpiry}
+                        showPrefix={true}
+                    />
+                </Text>
             ) : null;
 
         return (
@@ -176,6 +181,7 @@ export default class ChannelInfoHeader extends React.PureComponent {
                         membersCount={memberCount}
                         size={24}
                         userId={teammateId}
+                        shared={shared}
                         theme={theme}
                         type={type}
                         isArchived={isArchived}
@@ -190,7 +196,7 @@ export default class ChannelInfoHeader extends React.PureComponent {
                         {displayName}
                     </Text>
                 </View>
-                {isCustomStatusEnabled && type === General.DM_CHANNEL && customStatus?.emoji &&
+                {isCustomStatusEnabled && type === General.DM_CHANNEL && customStatus?.emoji && !isCustomStatusExpired &&
                     <View
                         style={[style.row, style.customStatusContainer]}
                         testID={`${testID}.custom_status`}
@@ -249,7 +255,6 @@ export default class ChannelInfoHeader extends React.PureComponent {
                                     defaultMessage='Header'
                                 />
                                 <Markdown
-                                    onPermalinkPress={onPermalinkPress}
                                     baseTextStyle={baseTextStyle}
                                     textStyles={textStyles}
                                     blockStyles={blockStyles}
@@ -282,7 +287,7 @@ export default class ChannelInfoHeader extends React.PureComponent {
                         />
                         <FormattedDate
                             format='LL'
-                            timeZone={timeZone}
+                            timezone={timezone}
                             value={createAt}
                         />
                     </Text>
@@ -318,12 +323,15 @@ const getStyleSheet = makeStyleSheetFromTheme((theme) => {
             paddingVertical: 10,
         },
         customStatus: {
-            flexDirection: 'row',
             width: '80%',
         },
         customStatusText: {
             color: theme.centerChannelColor,
             fontSize: 15,
+        },
+        customStatusExpiry: {
+            fontSize: 15,
+            color: changeOpacity(theme.centerChannelColor, 0.5),
         },
         channelNameContainer: {
             flexDirection: 'row',

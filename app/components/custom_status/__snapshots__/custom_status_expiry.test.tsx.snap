@@ -1,65 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/custom_status/custom_status_emoji should match snapshot 1`] = `
-<View
+<Text
   style={
     Object {
-      "alignItems": "center",
-      "flex": 1,
-      "flexDirection": "row",
-      "width": "70%",
+      "color": "#3d3c40",
+      "fontSize": 15,
     }
   }
 >
-  <Text
-    style={
-      Object {
-        "color": "#3d3c40",
-        "fontSize": 15,
-      }
-    }
-  >
-     (
+  <Text>
+    Apr 13, 2200
   </Text>
-  <Text
-    style={
-      Object {
-        "color": "#3d3c40",
-        "fontSize": 15,
-      }
-    }
-  >
-    Until
-  </Text>
-  <Text
-    style={
-      Object {
-        "color": "#3d3c40",
-        "fontSize": 15,
-      }
-    }
-  >
-     
-  </Text>
-  <Text
-    style={
-      Object {
-        "color": "#3d3c40",
-        "fontSize": 15,
-      }
-    }
-  >
-    10:14 AM
-  </Text>
-  <Text
-    style={
-      Object {
-        "color": "#3d3c40",
-        "fontSize": 15,
-      }
-    }
-  >
-    ) 
-  </Text>
-</View>
+</Text>
 `;

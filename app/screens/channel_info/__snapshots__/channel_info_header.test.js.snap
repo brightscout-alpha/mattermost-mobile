@@ -100,7 +100,7 @@ exports[`channel_info_header should match snapshot 1`] = `
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Purpose"
           id="channel_info.purpose"
           style={
@@ -144,7 +144,7 @@ exports[`channel_info_header should match snapshot 1`] = `
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Header"
           id="channel_info.header"
           style={
@@ -182,7 +182,6 @@ exports[`channel_info_header should match snapshot 1`] = `
           disableAtChannelMentionHighlight={true}
           disableGallery={true}
           onChannelLinkPress={[MockFunction]}
-          onPermalinkPress={[MockFunction]}
           testID="channel_info.header.header"
           textStyles={
             Object {
@@ -290,7 +289,7 @@ exports[`channel_info_header should match snapshot 1`] = `
       ]
     }
   >
-    <FormattedText
+    <InjectIntl(FormattedText)
       defaultMessage="Created by {creator} on "
       id="mobile.routes.channelInfo.createdBy"
       values={
@@ -404,7 +403,7 @@ exports[`channel_info_header should match snapshot when DM and hasGuests and is 
         }
       }
     >
-      <FormattedText
+      <InjectIntl(FormattedText)
         defaultMessage="This person is a guest"
         id="channel.isGuest"
         style={
@@ -435,7 +434,7 @@ exports[`channel_info_header should match snapshot when DM and hasGuests and is 
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Purpose"
           id="channel_info.purpose"
           style={
@@ -479,7 +478,7 @@ exports[`channel_info_header should match snapshot when DM and hasGuests and is 
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Header"
           id="channel_info.header"
           style={
@@ -517,7 +516,6 @@ exports[`channel_info_header should match snapshot when DM and hasGuests and is 
           disableAtChannelMentionHighlight={true}
           disableGallery={true}
           onChannelLinkPress={[MockFunction]}
-          onPermalinkPress={[MockFunction]}
           testID="channel_info.header.header"
           textStyles={
             Object {
@@ -625,7 +623,7 @@ exports[`channel_info_header should match snapshot when DM and hasGuests and is 
       ]
     }
   >
-    <FormattedText
+    <InjectIntl(FormattedText)
       defaultMessage="Created by {creator} on "
       id="mobile.routes.channelInfo.createdBy"
       values={
@@ -742,7 +740,7 @@ exports[`channel_info_header should match snapshot when DM and hasGuests but its
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Purpose"
           id="channel_info.purpose"
           style={
@@ -786,7 +784,7 @@ exports[`channel_info_header should match snapshot when DM and hasGuests but its
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Header"
           id="channel_info.header"
           style={
@@ -824,7 +822,6 @@ exports[`channel_info_header should match snapshot when DM and hasGuests but its
           disableAtChannelMentionHighlight={true}
           disableGallery={true}
           onChannelLinkPress={[MockFunction]}
-          onPermalinkPress={[MockFunction]}
           testID="channel_info.header.header"
           textStyles={
             Object {
@@ -932,7 +929,7 @@ exports[`channel_info_header should match snapshot when DM and hasGuests but its
       ]
     }
   >
-    <FormattedText
+    <InjectIntl(FormattedText)
       defaultMessage="Created by {creator} on "
       id="mobile.routes.channelInfo.createdBy"
       values={
@@ -1046,7 +1043,7 @@ exports[`channel_info_header should match snapshot when GM and hasGuests 1`] = `
         }
       }
     >
-      <FormattedText
+      <InjectIntl(FormattedText)
         defaultMessage="This group message has guests"
         id="channel.hasGuests"
         style={
@@ -1077,7 +1074,7 @@ exports[`channel_info_header should match snapshot when GM and hasGuests 1`] = `
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Purpose"
           id="channel_info.purpose"
           style={
@@ -1121,7 +1118,7 @@ exports[`channel_info_header should match snapshot when GM and hasGuests 1`] = `
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Header"
           id="channel_info.header"
           style={
@@ -1159,7 +1156,6 @@ exports[`channel_info_header should match snapshot when GM and hasGuests 1`] = `
           disableAtChannelMentionHighlight={true}
           disableGallery={true}
           onChannelLinkPress={[MockFunction]}
-          onPermalinkPress={[MockFunction]}
           testID="channel_info.header.header"
           textStyles={
             Object {
@@ -1267,7 +1263,7 @@ exports[`channel_info_header should match snapshot when GM and hasGuests 1`] = `
       ]
     }
   >
-    <FormattedText
+    <InjectIntl(FormattedText)
       defaultMessage="Created by {creator} on "
       id="mobile.routes.channelInfo.createdBy"
       values={
@@ -1384,7 +1380,7 @@ exports[`channel_info_header should match snapshot when is group constrained 1`]
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Purpose"
           id="channel_info.purpose"
           style={
@@ -1428,7 +1424,7 @@ exports[`channel_info_header should match snapshot when is group constrained 1`]
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Header"
           id="channel_info.header"
           style={
@@ -1466,7 +1462,6 @@ exports[`channel_info_header should match snapshot when is group constrained 1`]
           disableAtChannelMentionHighlight={true}
           disableGallery={true}
           onChannelLinkPress={[MockFunction]}
-          onPermalinkPress={[MockFunction]}
           testID="channel_info.header.header"
           textStyles={
             Object {
@@ -1574,7 +1569,7 @@ exports[`channel_info_header should match snapshot when is group constrained 1`]
       ]
     }
   >
-    <FormattedText
+    <InjectIntl(FormattedText)
       defaultMessage="Members are managed by linked groups"
       id="mobile.routes.channelInfo.groupManaged"
     />
@@ -1595,7 +1590,7 @@ exports[`channel_info_header should match snapshot when is group constrained 1`]
       ]
     }
   >
-    <FormattedText
+    <InjectIntl(FormattedText)
       defaultMessage="Created by {creator} on "
       id="mobile.routes.channelInfo.createdBy"
       values={
@@ -1709,7 +1704,7 @@ exports[`channel_info_header should match snapshot when public channel and hasGu
         }
       }
     >
-      <FormattedText
+      <InjectIntl(FormattedText)
         defaultMessage="This channel has guests"
         id="channel.channelHasGuests"
         style={
@@ -1740,7 +1735,7 @@ exports[`channel_info_header should match snapshot when public channel and hasGu
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Purpose"
           id="channel_info.purpose"
           style={
@@ -1784,7 +1779,7 @@ exports[`channel_info_header should match snapshot when public channel and hasGu
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Header"
           id="channel_info.header"
           style={
@@ -1822,7 +1817,6 @@ exports[`channel_info_header should match snapshot when public channel and hasGu
           disableAtChannelMentionHighlight={true}
           disableGallery={true}
           onChannelLinkPress={[MockFunction]}
-          onPermalinkPress={[MockFunction]}
           testID="channel_info.header.header"
           textStyles={
             Object {
@@ -1930,7 +1924,7 @@ exports[`channel_info_header should match snapshot when public channel and hasGu
       ]
     }
   >
-    <FormattedText
+    <InjectIntl(FormattedText)
       defaultMessage="Created by {creator} on "
       id="mobile.routes.channelInfo.createdBy"
       values={
@@ -2059,19 +2053,63 @@ exports[`channel_info_header should match snapshot with custom status enabled 1`
     <View
       style={
         Object {
-          "flexDirection": "row",
           "width": "80%",
         }
       }
     >
-      <View>
-        <CustomStatusText
-          ellipsizeMode="tail"
-          numberOfLines={1}
-          text="In a meeting"
-          textStyle={
+      <CustomStatusText
+        ellipsizeMode="tail"
+        numberOfLines={1}
+        text="In a meeting"
+        textStyle={
+          Object {
+            "color": "#3d3c40",
+            "fontSize": 15,
+          }
+        }
+        theme={
+          Object {
+            "awayIndicator": "#ffbc42",
+            "buttonBg": "#166de0",
+            "buttonColor": "#ffffff",
+            "centerChannelBg": "#ffffff",
+            "centerChannelColor": "#3d3c40",
+            "codeTheme": "github",
+            "dndIndicator": "#f74343",
+            "errorTextColor": "#fd5960",
+            "linkColor": "#2389d7",
+            "mentionBg": "#ffffff",
+            "mentionBj": "#ffffff",
+            "mentionColor": "#145dbf",
+            "mentionHighlightBg": "#ffe577",
+            "mentionHighlightLink": "#166de0",
+            "newMessageSeparator": "#ff8800",
+            "onlineIndicator": "#06d6a0",
+            "sidebarBg": "#145dbf",
+            "sidebarHeaderBg": "#1153ab",
+            "sidebarHeaderTextColor": "#ffffff",
+            "sidebarText": "#ffffff",
+            "sidebarTextActiveBorder": "#579eff",
+            "sidebarTextActiveColor": "#ffffff",
+            "sidebarTextHoverBg": "#4578bf",
+            "sidebarUnreadText": "#ffffff",
+            "type": "Mattermost",
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "color": undefined,
+            "fontSize": 15,
+          }
+        }
+      >
+        <CustomStatusExpiry
+          showPrefix={true}
+          styleProp={
             Object {
-              "color": "#3d3c40",
+              "color": undefined,
               "fontSize": 15,
             }
           }
@@ -2105,38 +2143,7 @@ exports[`channel_info_header should match snapshot with custom status enabled 1`
             }
           }
         />
-      </View>
-      <CustomStatusExpiry
-        theme={
-          Object {
-            "awayIndicator": "#ffbc42",
-            "buttonBg": "#166de0",
-            "buttonColor": "#ffffff",
-            "centerChannelBg": "#ffffff",
-            "centerChannelColor": "#3d3c40",
-            "codeTheme": "github",
-            "dndIndicator": "#f74343",
-            "errorTextColor": "#fd5960",
-            "linkColor": "#2389d7",
-            "mentionBg": "#ffffff",
-            "mentionBj": "#ffffff",
-            "mentionColor": "#145dbf",
-            "mentionHighlightBg": "#ffe577",
-            "mentionHighlightLink": "#166de0",
-            "newMessageSeparator": "#ff8800",
-            "onlineIndicator": "#06d6a0",
-            "sidebarBg": "#145dbf",
-            "sidebarHeaderBg": "#1153ab",
-            "sidebarHeaderTextColor": "#ffffff",
-            "sidebarText": "#ffffff",
-            "sidebarTextActiveBorder": "#579eff",
-            "sidebarTextActiveColor": "#ffffff",
-            "sidebarTextHoverBg": "#4578bf",
-            "sidebarUnreadText": "#ffffff",
-            "type": "Mattermost",
-          }
-        }
-      />
+      </Text>
     </View>
   </View>
   <View
@@ -2156,7 +2163,7 @@ exports[`channel_info_header should match snapshot with custom status enabled 1`
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Purpose"
           id="channel_info.purpose"
           style={
@@ -2200,7 +2207,7 @@ exports[`channel_info_header should match snapshot with custom status enabled 1`
           }
         }
       >
-        <FormattedText
+        <InjectIntl(FormattedText)
           defaultMessage="Header"
           id="channel_info.header"
           style={
@@ -2238,7 +2245,6 @@ exports[`channel_info_header should match snapshot with custom status enabled 1`
           disableAtChannelMentionHighlight={true}
           disableGallery={true}
           onChannelLinkPress={[MockFunction]}
-          onPermalinkPress={[MockFunction]}
           testID="channel_info.header.header"
           textStyles={
             Object {
@@ -2346,7 +2352,7 @@ exports[`channel_info_header should match snapshot with custom status enabled 1`
       ]
     }
   >
-    <FormattedText
+    <InjectIntl(FormattedText)
       defaultMessage="Created by {creator} on "
       id="mobile.routes.channelInfo.createdBy"
       values={

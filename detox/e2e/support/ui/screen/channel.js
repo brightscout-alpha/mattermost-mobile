@@ -69,6 +69,14 @@ class ChannelScreen {
 
     postList = new PostList(this.testID.channelScreenPrefix);
 
+    getMoreMessagesButton = () => {
+        return this.postList.getMoreMessagesButton();
+    }
+
+    getNewMessagesDivider = () => {
+        return this.postList.getNewMessagesDivider();
+    }
+
     getLongPostItem = (postId, text, postProfileOptions = {}) => {
         return LongPostScreen.getPost(postId, text, postProfileOptions);
     }
@@ -214,6 +222,11 @@ class ChannelScreen {
         await expect(
             this.getLongPostMessage(),
         ).toHaveText(postMessage);
+    }
+
+    hasPostMessage = async (postId, postMessage) => {
+        const {postListPostItem} = this.getPostListPostItem(postId, postMessage);
+        await expect(postListPostItem).toBeVisible();
     }
 
     hasPostMessageAtIndex = async (index, postMessage) => {

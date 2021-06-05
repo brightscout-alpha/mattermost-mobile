@@ -21,11 +21,12 @@ import EventEmitter from '@mm-redux/utils/event_emitter';
 import CustomStatusSuggestion from '@screens/custom_status/custom_status_suggestion';
 import {t} from '@utils/i18n';
 import {preventDoubleTap} from '@utils/tap';
-import {getCurrentDateAndTimeForTimezone} from '@utils/timezone';
+import {getCurrentMomentForTimezone} from '@utils/timezone';
 import moment from 'moment';
 import {changeOpacity, getKeyboardAppearanceFromTheme, makeStyleSheetFromTheme} from '@utils/theme';
 import {Moment} from 'moment-timezone';
 import {durationValues} from '@constants/custom_status';
+import CustomStatusExpiry from '@components/custom_status/custom_status_expiry';
 
 type DefaultUserCustomStatus = {
     emoji: string;
@@ -42,7 +43,7 @@ const defaultCustomStatusSuggestions: DefaultUserCustomStatus[] = [
     {emoji: 'palm_tree', message: t('custom_status.suggestions.on_a_vacation'), messageDefault: 'On a vacation', durationDefault: CustomStatusDuration.THIS_WEEK},
 ];
 
-const defaultDuration: CustomStatusDuration = CustomStatusDuration.DONT_CLEAR;
+const defaultDuration: CustomStatusDuration = CustomStatusDuration.TODAY;
 
 interface Props extends NavigationComponentProps {
     intl: typeof intlShape;
@@ -57,6 +58,7 @@ interface Props extends NavigationComponentProps {
         removeRecentCustomStatus: (customStatus: UserCustomStatus) => ActionFunc;
     };
     isTimezoneEnabled: boolean;
+    isCustomStatusExpired: boolean;
 }
 
 type State = {
@@ -86,7 +88,7 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        const {customStatus, userTimezone} = props;
+        const {customStatus, userTimezone, isCustomStatusExpired} = props;
 
         this.rightButton.text = props.intl.formatMessage({id: 'mobile.custom_status.modal_confirm', defaultMessage: 'Done'});
         this.rightButton.color = props.theme.sidebarHeaderTextColor;
@@ -101,21 +103,20 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
         let currentTime = moment();
 
         if (props.isTimezoneEnabled) {
-            const timezone = userTimezone;
-            currentTime = getCurrentDateAndTimeForTimezone(timezone);
+            currentTime = getCurrentMomentForTimezone(userTimezone);
         }
 
         let initialCustomExpiryTime: Moment = currentTime;
 
-        const isCurrentCustomStatusSet = customStatus?.text || customStatus?.emoji;
+        const isCurrentCustomStatusSet = !isCustomStatusExpired && (customStatus?.text || customStatus?.emoji);
         if (isCurrentCustomStatusSet && customStatus?.duration === CustomStatusDuration.DATE_AND_TIME && customStatus?.expires_at) {
             initialCustomExpiryTime = moment(customStatus?.expires_at);
         }
 
         this.state = {
-            emoji: props.customStatus?.emoji || '',
-            text: props.customStatus?.text || '',
-            duration: props.customStatus?.duration || defaultDuration,
+            emoji: isCurrentCustomStatusSet ? customStatus?.emoji : '',
+            text: isCurrentCustomStatusSet ? customStatus?.text : '',
+            duration: isCurrentCustomStatusSet ? customStatus?.duration : defaultDuration,
             expires_at: initialCustomExpiryTime,
         };
     }
@@ -162,22 +163,21 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
 
     calculateExpiryTime = (duration: CustomStatusDuration): string => {
         const {userTimezone} = this.props;
-        const timezone = userTimezone;
-        const currentTime = timezone ? moment().tz(timezone) : new Date();
+        const currentTime = getCurrentMomentForTimezone(userTimezone);
         const {expires_at} = this.state;
         switch (duration) {
-        case defaultDuration:
+        case CustomStatusDuration.DONT_CLEAR:
             return '';
         case CustomStatusDuration.THIRTY_MINUTES:
-            return moment(currentTime).add(30, 'minutes').seconds(0).milliseconds(0).toISOString();
+            return currentTime.add(30, 'minutes').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.ONE_HOUR:
-            return moment(currentTime).add(1, 'hour').seconds(0).milliseconds(0).toISOString();
+            return currentTime.add(1, 'hour').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.FOUR_HOURS:
-            return moment(currentTime).add(4, 'hours').seconds(0).milliseconds(0).toISOString();
+            return currentTime.add(4, 'hours').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.TODAY:
-            return moment(currentTime).endOf('day').toISOString();
+            return currentTime.endOf('day').toISOString();
         case CustomStatusDuration.THIS_WEEK:
-            return moment(currentTime).endOf('week').toISOString();
+            return currentTime.endOf('week').toISOString();
         case CustomStatusDuration.DATE_AND_TIME:
             return expires_at.toISOString();
         default:
@@ -335,7 +335,7 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
     };
 
     render() {
-        const {emoji, text, duration} = this.state;
+        const {emoji, text, duration, expires_at} = this.state;
         const {theme, isLandscape, intl} = this.props;
 
         const isStatusSet = emoji || text;
@@ -363,20 +363,33 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
             </TouchableOpacity>
         );
 
+        const renderClearAfterTime = duration && duration !== CustomStatusDuration.DATE_AND_TIME ? (
+            <FormattedText
+                id={durationValues[duration].id}
+                defaultMessage={durationValues[duration].defaultMessage}
+                style={style.expiryTime}
+            />
+        ) : (
+            <View style={style.expiryTime}>
+                <CustomStatusExpiry
+                    time={expires_at.toDate()}
+                    theme={theme}
+                    styleProp={{
+                        fontSize: 15,
+                        color: changeOpacity(theme.centerChannelColor, 0.5),
+                    }}
+                />
+            </View>
+        );
+
         const clearAfter = (
             <TouchableOpacity
                 testID={`custom_status.duration.${duration}`}
                 onPress={this.openClearAfterModal}
             >
                 <View style={style.inputContainer}>
-                    <Text style={style.expiryTime}>{intl.formatMessage({id: 'mobile.custom_status.clear_after', defaultMessage: 'Clear After'})}</Text>
-                    {duration ? (
-                        <FormattedText
-                            id={durationValues[duration].id}
-                            defaultMessage={durationValues[duration].defaultMessage}
-                            style={style.expiryTimeShow}
-                        />
-                    ) : null}
+                    <Text style={style.expiryTimeLabel}>{intl.formatMessage({id: 'mobile.custom_status.clear_after', defaultMessage: 'Clear After'})}</Text>
+                    {renderClearAfterTime}
                     <CompassIcon
                         name='chevron-right'
                         size={24}
@@ -447,6 +460,7 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
                             {this.renderRecentCustomStatuses(style)}
                             {this.renderCustomStatusSuggestions(style)}
                         </View>
+                        <View style={style.separator}/>
                     </ScrollView>
                 </KeyboardAvoidingView>
             </SafeAreaView>
@@ -470,6 +484,7 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
             position: 'relative',
             flexDirection: 'row',
             alignItems: 'center',
+            height: 48,
             borderTopWidth: 1,
             borderBottomWidth: 1,
             borderTopColor: changeOpacity(theme.centerChannelColor, 0.1),
@@ -483,7 +498,7 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
             fontSize: 17,
             paddingHorizontal: 52,
             textAlignVertical: 'center',
-            height: 48,
+            height: '100%',
         },
         icon: {
             color: changeOpacity(theme.centerChannelColor, 0.64),
@@ -494,7 +509,7 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
         iconContainer: {
             position: 'absolute',
             left: 14,
-            top: 12,
+            top: 10,
         },
         separator: {
             marginTop: 32,
@@ -521,22 +536,21 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
             height: 1,
             marginHorizontal: 16,
         },
-        expiryTime: {
+        expiryTimeLabel: {
             fontSize: 17,
             paddingLeft: 16,
-            height: 48,
             textAlignVertical: 'center',
             color: theme.centerChannelColor,
         },
-        expiryTimeShow: {
+        expiryTime: {
             position: 'absolute',
             right: 30,
-            color: theme.centerChannelColor,
+            color: changeOpacity(theme.centerChannelColor, 0.5),
         },
         rightIcon: {
             position: 'absolute',
             right: 6,
-            color: changeOpacity(theme.centerChannelColor, 0.32),
+            color: changeOpacity(theme.centerChannelColor, 0.5),
         },
     };
 });

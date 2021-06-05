@@ -38,7 +38,6 @@ export default class ChannelInfo extends PureComponent {
             getChannelStats: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             setChannelDisplayName: PropTypes.func.isRequired,
-            showPermalink: PropTypes.func.isRequired,
         }),
         currentChannel: PropTypes.object.isRequired,
         currentChannelCreatorName: PropTypes.string,
@@ -52,6 +51,7 @@ export default class ChannelInfo extends PureComponent {
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         userTimezone: PropTypes.string,
+        isCustomStatusExpired: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -82,10 +82,6 @@ export default class ChannelInfo extends PureComponent {
         }
 
         dismissModal();
-    };
-
-    handlePermalinkPress = (postId, teamName) => {
-        this.props.actions.showPermalink(this.context.intl, teamName, postId);
     };
 
     permalinkBadTeam = () => {
@@ -179,12 +175,11 @@ export default class ChannelInfo extends PureComponent {
             isTeammateGuest,
             customStatus,
             isCustomStatusEnabled,
+            isCustomStatusExpired,
         } = this.props;
 
         const style = getStyleSheet(theme);
         const channelIsArchived = currentChannel.delete_at !== 0;
-
-        const timezone = userTimezone;
 
         return (
             <SafeAreaView
@@ -204,8 +199,8 @@ export default class ChannelInfo extends PureComponent {
                         displayName={currentChannel.display_name}
                         header={currentChannel.header}
                         memberCount={currentChannelMemberCount}
-                        onPermalinkPress={this.handlePermalinkPress}
                         purpose={currentChannel.purpose}
+                        shared={currentChannel.shared}
                         teammateId={teammateId}
                         theme={theme}
                         type={currentChannel.type}
@@ -216,7 +211,8 @@ export default class ChannelInfo extends PureComponent {
                         testID='channel_info.header'
                         customStatus={customStatus}
                         isCustomStatusEnabled={isCustomStatusEnabled}
-                        timeZone={timezone}
+                        isCustomStatusExpired={isCustomStatusExpired}
+                        timeZone={userTimezone}
                     />
                     }
                     <View style={style.rowsContainer}>

@@ -4,7 +4,7 @@ exports[`screens/clear_after_suggestions should match snapshot 1`] = `
 <View>
   <ForwardRef
     onPress={[Function]}
-    testID="expiry_time_suggestion.dont_clear"
+    testID="clear_after.suggestion.dont_clear"
   >
     <View
       style={
@@ -76,7 +76,7 @@ exports[`screens/clear_after_suggestions should match snapshot with separator an
 <View>
   <ForwardRef
     onPress={[Function]}
-    testID="expiry_time_suggestion.dont_clear"
+    testID="clear_after.suggestion.dont_clear"
   >
     <View
       style={

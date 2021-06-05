@@ -74,15 +74,15 @@ const CustomStatusSuggestion = (props: Props) => {
                                 textStyle={style.customStatusText}
                             />
                         </View>
-                        <View style={style.expiryTimeContainer}>
-                            {duration && (
+                        {duration ? (
+                            <View style={{paddingTop: 5}}>
                                 <CustomStatusText
                                     text={intl.formatMessage(durationValues[duration])}
                                     theme={theme}
                                     textStyle={style.customStatusDuration}
                                 />
-                            )}
-                        </View>
+                            </View>
+                        ) : null}
                     </View>
                     {clearButton}
                     {separator && <View style={style.divider}/>}
@@ -98,35 +98,30 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
     return {
         container: {
             backgroundColor: theme.centerChannelBg,
-            display: 'flex',
             flexDirection: 'row',
-            padding: 2,
+            minHeight: 50,
         },
         iconContainer: {
             width: 45,
             height: 46,
             left: 14,
-            top: 8,
+            top: 12,
             marginRight: 6,
             color: theme.centerChannelColor,
         },
         wrapper: {
             flex: 1,
-            position: 'relative',
         },
         textContainer: {
-            marginBottom: 2,
-            alignItems: 'center',
+            paddingTop: 14,
+            paddingBottom: 14,
+            justifyContent: 'center',
             width: '70%',
             flex: 1,
-            flexDirection: 'row',
-        },
-        expiryTimeContainer: {
-            marginLeft: 10,
         },
         clearButtonContainer: {
             position: 'absolute',
-            top: 0,
+            top: 4,
             right: 13,
         },
         divider: {
