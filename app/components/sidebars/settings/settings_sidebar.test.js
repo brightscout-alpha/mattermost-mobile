@@ -50,4 +50,20 @@ describe('SettingsSidebar', () => {
 
         expect(wrapper.getElement()).toMatchSnapshot();
     });
+
+    it('should match snapshot with custom status expiry', () => {
+        const wrapper = shallowWithIntl(
+            <SettingsSidebar
+                {...baseProps}
+                isCustomStatusEnabled={true}
+                customStatus={{
+                    ...customStatus,
+                    duration: CustomStatusDuration.DATE_AND_TIME,
+                    expires_at: '2200-04-13T18:09:12.451Z',
+                }}
+            />,
+        );
+
+        expect(wrapper.getElement()).toMatchSnapshot();
+    });
 });

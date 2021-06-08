@@ -11,7 +11,7 @@ exports[`screens/custom_status_modal should match snapshot 1`] = `
   }
   customStatus={
     Object {
-      "duration": "dont_clear",
+      "duration": "",
       "emoji": "calendar",
       "text": "In a meeting",
     }
@@ -46,7 +46,7 @@ exports[`screens/custom_status_modal should match snapshot 1`] = `
   recentCustomStatuses={
     Array [
       Object {
-        "duration": "dont_clear",
+        "duration": "",
         "emoji": "calendar",
         "text": "In a meeting",
       },
@@ -124,7 +124,7 @@ exports[`screens/custom_status_modal should match snapshot when user has no cust
   recentCustomStatuses={
     Array [
       Object {
-        "duration": "dont_clear",
+        "duration": "",
         "emoji": "calendar",
         "text": "In a meeting",
       },
@@ -173,7 +173,7 @@ exports[`screens/custom_status_modal should match snapshot when user has no rece
   }
   customStatus={
     Object {
-      "duration": "dont_clear",
+      "duration": "",
       "emoji": "calendar",
       "text": "In a meeting",
     }
