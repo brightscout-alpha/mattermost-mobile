@@ -15,7 +15,7 @@ describe('components/custom_status/custom_status_emoji', () => {
 
     const baseProps = {
         theme: Preferences.THEMES.default,
-        time: date,
+        time: new Date(date),
     };
 
     (PreferenceSelectors.getBool as jest.Mock).mockReturnValue(false);
