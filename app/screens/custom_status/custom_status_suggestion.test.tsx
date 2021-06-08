@@ -26,7 +26,7 @@ describe('screens/custom_status_suggestion', () => {
             />,
         );
 
-        expect(wrapper.getElement()).toMatchSnapshot();
+        expect(wrapper.dive().getElement()).toMatchSnapshot();
     });
 
     it('should match snapshot with separator and clear button', () => {
@@ -38,7 +38,7 @@ describe('screens/custom_status_suggestion', () => {
             />,
         );
 
-        expect(wrapper.getElement()).toMatchSnapshot();
+        expect(wrapper.dive().getElement()).toMatchSnapshot();
     });
 
     it('should call handleSuggestionClick on clicking the suggestion', () => {
@@ -48,7 +48,7 @@ describe('screens/custom_status_suggestion', () => {
             />,
         );
 
-        wrapper.find(TouchableOpacity).simulate('press');
+        wrapper.dive().find(TouchableOpacity).simulate('press');
         expect(baseProps.handleSuggestionClick).toBeCalled();
     });
 });

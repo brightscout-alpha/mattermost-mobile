@@ -22,7 +22,7 @@ describe('screens/clear_after_suggestions', () => {
             <ClearAfterSuggestion {...baseProps}/>,
         );
 
-        expect(wrapper.getElement()).toMatchSnapshot();
+        expect(wrapper.dive().getElement()).toMatchSnapshot();
     });
 
     it('should match snapshot with separator and selected check', () => {
@@ -34,7 +34,7 @@ describe('screens/clear_after_suggestions', () => {
             />,
         );
 
-        expect(wrapper.getElement()).toMatchSnapshot();
+        expect(wrapper.dive().getElement()).toMatchSnapshot();
     });
 
     it('should call handleSuggestionClick on clicking the suggestion', () => {
@@ -44,7 +44,7 @@ describe('screens/clear_after_suggestions', () => {
             />,
         );
 
-        wrapper.find(TouchableOpacity).simulate('press');
+        wrapper.dive().find(TouchableOpacity).simulate('press');
         expect(baseProps.handleSuggestionClick).toBeCalled();
     });
 });
