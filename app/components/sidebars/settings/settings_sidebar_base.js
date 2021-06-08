@@ -6,10 +6,12 @@ import PropTypes from 'prop-types';
 import {ScrollView, View, Text} from 'react-native';
 
 import {General} from '@mm-redux/constants';
+import {CustomStatusDuration} from '@mm-redux/types/users';
 import EventEmitter from '@mm-redux/utils/event_emitter';
 
 import {showModal, showModalOverCurrentContext, dismissModal} from '@actions/navigation';
 import CompassIcon from '@components/compass_icon';
+import CustomStatusExpiry from '@components/custom_status/custom_status_expiry';
 import CustomStatusText from '@components/custom_status/custom_status_text';
 import ClearButton from '@components/custom_status/clear_button';
 import Emoji from '@components/emoji';
@@ -24,8 +26,6 @@ import {changeOpacity, makeStyleSheetFromTheme} from '@utils/theme';
 import DrawerItem from './drawer_item';
 import UserInfo from './user_info';
 import StatusLabel from './status_label';
-import {CustomStatusDuration} from '@mm-redux/types/users';
-import CustomStatusExpiry from '@components/custom_status/custom_status_expiry';
 
 export default class SettingsSidebarBase extends PureComponent {
     static propTypes = {
@@ -255,11 +255,11 @@ export default class SettingsSidebarBase extends PureComponent {
 
         const customStatusEmoji = (
             <View
-                testID={`custom_status.emoji.${isStatusSet ? customStatus?.emoji : 'default'}`}
+                testID={`custom_status.emoji.${isStatusSet ? customStatus.emoji : 'default'}`}
             >
                 {isStatusSet ? (
                     <Emoji
-                        emojiName={customStatus?.emoji}
+                        emojiName={customStatus.emoji}
                         size={20}
                     />
                 ) : (
@@ -278,7 +278,7 @@ export default class SettingsSidebarBase extends PureComponent {
                     <CustomStatusExpiry
                         time={customStatus?.expires_at}
                         theme={theme}
-                        styleProp={style.customStatusExpiryText}
+                        textStyles={style.customStatusExpiryText}
                         withinBrackets={true}
                         showPrefix={true}
                     />
@@ -451,7 +451,6 @@ const getStyleSheet = makeStyleSheetFromTheme((theme) => {
             color: changeOpacity(theme.centerChannelColor, 0.35),
         },
         customStatusExpiryText: {
-            fontSize: 15,
             color: changeOpacity(theme.centerChannelColor, 0.35),
         },
         clearButton: {

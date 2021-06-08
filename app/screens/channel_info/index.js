@@ -10,11 +10,9 @@ import {getCustomEmojisInText} from '@mm-redux/actions/emojis';
 import {General} from '@mm-redux/constants';
 import {getTeammateNameDisplaySetting, getTheme} from '@mm-redux/selectors/entities/preferences';
 import {getCurrentChannel, getCurrentChannelStats} from '@mm-redux/selectors/entities/channels';
-import {getCurrentUserTimezone} from '@mm-redux/selectors/entities/timezone';
 import {getCurrentUserId, getUser} from '@mm-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from '@mm-redux/utils/channel_utils';
 import {displayUsername} from '@mm-redux/utils/user_utils';
-
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from '@selectors/custom_status';
 import {isGuest} from '@utils/users';
 
@@ -31,7 +29,6 @@ function makeMapStateToProps() {
         let currentChannelMemberCount = currentChannelStats && currentChannelStats.member_count;
         let currentChannelGuestCount = (currentChannelStats && currentChannelStats.guest_count) || 0;
         const currentUserId = getCurrentUserId(state);
-        const userTimezone = getCurrentUserTimezone(state);
 
         let teammateId;
         let isTeammateGuest = false;
@@ -48,8 +45,8 @@ function makeMapStateToProps() {
                 currentChannelGuestCount = 1;
             }
             customStatusEnabled = isCustomStatusEnabled(state);
-            customStatus = customStatusEnabled ? getCustomStatus(state, teammateId) : undefined;
-            customStatusExpired = isCustomStatusExpired(state, customStatus);
+            customStatus = customStatusEnabled && getCustomStatus(state, teammateId);
+            customStatusExpired = customStatusEnabled ? isCustomStatusExpired(state, customStatus) : false;
         }
 
         if (currentChannel.type === General.GM_CHANNEL) {
@@ -57,7 +54,6 @@ function makeMapStateToProps() {
         }
 
         return {
-            userTimezone,
             currentChannel,
             currentChannelCreatorName,
             currentChannelGuestCount,

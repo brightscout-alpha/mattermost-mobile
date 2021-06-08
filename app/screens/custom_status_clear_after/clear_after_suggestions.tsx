@@ -1,19 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {intlShape} from 'react-intl';
-import CustomStatusText from '@components/custom_status/custom_status_text';
-import {Theme} from '@mm-redux/types/preferences';
-import {changeOpacity, makeStyleSheetFromTheme} from '@utils/theme';
-import React, {useCallback, useState} from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import {preventDoubleTap} from '@utils/tap';
-import DateTimePicker from './date_time_selector';
-import {CustomStatusDuration} from '@mm-redux/types/users';
-import CompassIcon from '@components/compass_icon';
 import moment, {Moment} from 'moment';
-import {durationValues} from '@constants/custom_status';
+import React, {useCallback, useState} from 'react';
+import {intlShape} from 'react-intl';
+import {View, TouchableOpacity} from 'react-native';
+
+import CompassIcon from '@components/compass_icon';
 import CustomStatusExpiry from '@components/custom_status/custom_status_expiry';
+import CustomStatusText from '@components/custom_status/custom_status_text';
+import {durationValues} from '@constants/custom_status';
+import {Theme} from '@mm-redux/types/preferences';
+import {CustomStatusDuration} from '@mm-redux/types/users';
+import {preventDoubleTap} from '@utils/tap';
+import {changeOpacity, makeStyleSheetFromTheme} from '@utils/theme';
+
+import DateTimePicker from './date_time_selector';
 
 type Props = {
     handleSuggestionClick: (duration: CustomStatusDuration, expiresAt: string) => void;
@@ -117,10 +119,7 @@ const ClearAfterSuggestion = (props: Props) => {
             <CustomStatusExpiry
                 theme={theme}
                 time={moment(expiry).toDate()}
-                styleProp={{
-                    color: theme.linkColor,
-                    fontSize: 15,
-                }}
+                textStyles={style.customStatusExpiry}
             />
         </View>
     );
@@ -181,6 +180,9 @@ const getStyleSheet = makeStyleSheetFromTheme((theme: Theme) => {
         button: {
             borderRadius: 1000,
             color: theme.buttonBg,
+        },
+        customStatusExpiry: {
+            color: theme.linkColor,
         },
     };
 });
