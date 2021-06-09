@@ -17,7 +17,7 @@ import {CustomStatusDuration} from '@mm-redux/types/users';
 import {makeStyleSheetFromTheme, changeOpacity} from '@utils/theme';
 
 import {dismissModal, mergeNavigationOptions} from 'app/actions/navigation';
-import ClearAfterSuggestion from './clear_after_suggestions';
+import ClearAfterMenuItem from './clear_after_menu_item';
 interface Props extends NavigationComponentProps {
     intl: typeof intlShape;
     theme: Theme;
@@ -97,7 +97,7 @@ class ClearAfterModal extends NavigationComponent<Props, State> {
         dismissModal();
     }
 
-    handleSuggestionClick = (duration: CustomStatusDuration, expiresAt: string) => {
+    handleItemClick = (duration: CustomStatusDuration, expiresAt: string) => {
         if (duration === CustomStatusDuration.DATE_AND_TIME && expiresAt !== '') {
             this.setState({duration, expiresAt, showExpiryTime: true});
         } else {
@@ -105,18 +105,18 @@ class ClearAfterModal extends NavigationComponent<Props, State> {
         }
     };
 
-    renderClearAfterSuggestions = () => {
+    renderClearAfterMenu = () => {
         const {theme} = this.props;
         const style = getStyleSheet(theme);
         const {duration} = this.state;
 
-        const clearAfterSuggestions = Object.values(CustomStatusDuration).map(
+        const clearAfterMenu = Object.values(CustomStatusDuration).map(
             (item, index, arr) => {
                 if (index !== arr.length - 1) {
                     return (
-                        <ClearAfterSuggestion
+                        <ClearAfterMenuItem
                             key={item}
-                            handleSuggestionClick={this.handleSuggestionClick}
+                            handleItemClick={this.handleItemClick}
                             duration={item}
                             theme={theme}
                             separator={index !== arr.length - 2}
@@ -128,13 +128,13 @@ class ClearAfterModal extends NavigationComponent<Props, State> {
             },
         );
 
-        if (clearAfterSuggestions.length <= 0) {
+        if (clearAfterMenu.length <= 0) {
             return null;
         }
 
         return (
-            <View testID='clear_after.suggestions'>
-                <View style={style.block}>{clearAfterSuggestions}</View>
+            <View testID='clear_after.menu'>
+                <View style={style.block}>{clearAfterMenu}</View>
             </View>
         );
     };
@@ -151,11 +151,11 @@ class ClearAfterModal extends NavigationComponent<Props, State> {
                 <StatusBar/>
                 <KeyboardAwareScrollView bounces={false}>
                     <View style={style.scrollView}>
-                        {this.renderClearAfterSuggestions()}
+                        {this.renderClearAfterMenu()}
                     </View>
                     <View style={style.block}>
-                        <ClearAfterSuggestion
-                            handleSuggestionClick={this.handleSuggestionClick}
+                        <ClearAfterMenuItem
+                            handleItemClick={this.handleItemClick}
                             duration={CustomStatusDuration.DATE_AND_TIME}
                             theme={theme}
                             separator={false}
