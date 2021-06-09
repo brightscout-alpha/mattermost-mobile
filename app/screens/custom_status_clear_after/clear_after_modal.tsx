@@ -28,6 +28,7 @@ interface Props extends NavigationComponentProps {
 type State = {
     duration: CustomStatusDuration;
     expiresAt: string;
+    showExpiryTime: boolean;
 }
 
 class ClearAfterModal extends NavigationComponent<Props, State> {
@@ -67,6 +68,7 @@ class ClearAfterModal extends NavigationComponent<Props, State> {
         this.state = {
             duration: props.initialDuration,
             expiresAt: '',
+            showExpiryTime: false,
         };
     }
 
@@ -96,7 +98,11 @@ class ClearAfterModal extends NavigationComponent<Props, State> {
     }
 
     handleSuggestionClick = (duration: CustomStatusDuration, expiresAt: string) => {
-        this.setState({duration, expiresAt});
+        if (duration === CustomStatusDuration.DATE_AND_TIME && expiresAt !== '') {
+            this.setState({duration, expiresAt, showExpiryTime: true});
+        } else {
+            this.setState({duration, expiresAt, showExpiryTime: false});
+        }
     };
 
     renderClearAfterSuggestions = () => {
@@ -136,7 +142,7 @@ class ClearAfterModal extends NavigationComponent<Props, State> {
     render() {
         const {theme} = this.props;
         const style = getStyleSheet(theme);
-
+        const {duration, expiresAt, showExpiryTime} = this.state;
         return (
             <SafeAreaView
                 testID='clear_after.screen'
@@ -153,8 +159,8 @@ class ClearAfterModal extends NavigationComponent<Props, State> {
                             duration={CustomStatusDuration.DATE_AND_TIME}
                             theme={theme}
                             separator={false}
-                            isSelected={false}
-                            showExpiryTime={true}
+                            isSelected={duration === CustomStatusDuration.DATE_AND_TIME && expiresAt === ''}
+                            showExpiryTime={showExpiryTime}
                         />
                     </View>
                 </KeyboardAwareScrollView>

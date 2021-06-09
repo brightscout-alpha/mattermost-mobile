@@ -82,10 +82,9 @@ const ClearAfterSuggestion = ({handleSuggestionClick, duration, theme, separator
 
     const handleClick = useCallback(
         preventDoubleTap(() => {
+            handleSuggestionClick(duration, '');
             if (duration === CustomStatusDuration.DATE_AND_TIME) {
                 setShowDateAndTimePicker(true);
-            } else {
-                handleSuggestionClick(duration, '');
             }
         }),
         [handleSuggestionClick, duration],
@@ -119,6 +118,7 @@ const ClearAfterSuggestion = ({handleSuggestionClick, duration, theme, separator
                 theme={theme}
                 time={moment(expiry).toDate()}
                 textStyles={style.customStatusExpiry}
+                showTimeCompulsory={true}
             />
         </View>
     );
