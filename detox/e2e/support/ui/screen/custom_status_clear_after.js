@@ -31,7 +31,7 @@ class ClearAfterScreen {
 
     open = async () => {
         // # Open clear after screen
-        await CustomStatusScreen.tapClearAfterAction();
+        await CustomStatusScreen.openClearAfterModal();
 
         return this.toBeVisible();
     }

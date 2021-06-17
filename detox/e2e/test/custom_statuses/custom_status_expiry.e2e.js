@@ -1,6 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import moment from 'moment-timezone';
+
+import {
+    Setup,
+    System,
+} from '@support/server_api';
+import {DateTimePicker} from '@support/ui/component';
 import {
     ChannelInfoScreen,
     ChannelScreen,
@@ -9,13 +16,7 @@ import {
     UserProfileScreen,
     ClearAfterScreen,
 } from '@support/ui/screen';
-import {
-    Setup,
-    System,
-} from '@support/server_api';
-
-import {DateTimePicker} from '@support/ui/component';
-import moment from 'moment-timezone';
+import {wait, timeouts} from '@support/utils';
 
 describe('Custom status', () => {
     const {
@@ -27,7 +28,7 @@ describe('Custom status', () => {
         tapSuggestion,
     } = CustomStatusScreen;
     const defaultCustomStatuses = ['In a meeting', 'Out for lunch', 'Out sick', 'Working from home', 'On a vacation'];
-    const defaultClearAfterDurations = ['dont_clear', 'thirty_minutes', 'one_hour', 'four_hours', 'today', 'this_week', 'date_and_time'];
+    const defaultClearAfterDurations = ['', 'thirty_minutes', 'one_hour', 'four_hours', 'today', 'this_week', 'date_and_time'];
     const defaultStatus = {
         emoji: 'hamburger',
         text: 'Out for lunch',
@@ -83,7 +84,13 @@ describe('Custom status', () => {
 
         // # Close settings sidebar
         await closeSettingsSidebar();
-    });
+
+        // # Wait for status to get cleared
+        await wait(timeouts.ONE_MIN * 31);
+        await openSettingsSidebar();
+        await expect(element(by.text(expiryText))).toBeNotVisible();
+        await closeSettingsSidebar();
+    }, timeouts.ONE_MIN * 35);
 
     it('MM-T4091 RN apps: Custom Expiry Visibility (mobile)', async () => {
         const message = 'Hello';
