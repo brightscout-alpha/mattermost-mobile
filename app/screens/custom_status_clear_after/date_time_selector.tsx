@@ -71,13 +71,13 @@ const DateTimeSelector = (props: Props) => {
         <View style={styles.container}>
             <View style={styles.buttonContainer}>
                 <Button
-                    testID={'clear_after.suggestion.date_and_time.button.date'}
+                    testID={'clear_after.menu_item.date_and_time.button.date'}
                     onPress={showDatepicker}
                     title='Select Date'
                     color={theme.buttonBg}
                 />
                 <Button
-                    testID={'clear_after.suggestion.date_and_time.button.time'}
+                    testID={'clear_after.menu_item.date_and_time.button.time'}
                     onPress={showTimepicker}
                     title='Select Time'
                     color={theme.buttonBg}

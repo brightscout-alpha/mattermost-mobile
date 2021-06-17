@@ -6,7 +6,7 @@ import Preferences from '@mm-redux/constants/preferences';
 import DateTimeSelector from './date_time_selector';
 import {renderWithRedux} from 'test/testing_library';
 
-describe('screens/clear_after_modal', () => {
+describe('screens/date_time_selector', () => {
     const baseProps = {
         theme: Preferences.THEMES.default,
         handleChange: jest.fn(),

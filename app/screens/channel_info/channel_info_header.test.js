@@ -137,7 +137,7 @@ describe('channel_info_header', () => {
         expect(wrapper.getElement()).toMatchSnapshot();
     });
 
-    test('should match snapshot with custom status expiry', async () => {
+    test('should match snapshot with custom status expiry', () => {
         const customStatus = {
             emoji: 'calendar',
             text: 'In a meeting',

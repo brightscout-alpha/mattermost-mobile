@@ -5,21 +5,21 @@ import React from 'react';
 import {shallowWithIntl} from 'test/intl-test-helper';
 import Preferences from '@mm-redux/constants/preferences';
 import {CustomStatusDuration} from '@mm-redux/types/users';
-import ClearAfterSuggestion from './clear_after_suggestions';
+import ClearAfterMenuItem from './clear_after_menu_item';
 import {TouchableOpacity} from 'react-native';
 
-describe('screens/clear_after_suggestions', () => {
+describe('screens/clear_after_menu_item', () => {
     const baseProps = {
         theme: Preferences.THEMES.default,
         duration: CustomStatusDuration.DONT_CLEAR,
         separator: false,
         isSelected: false,
-        handleSuggestionClick: jest.fn(),
+        handleItemClick: jest.fn(),
     };
 
     it('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <ClearAfterSuggestion {...baseProps}/>,
+            <ClearAfterMenuItem {...baseProps}/>,
         );
 
         expect(wrapper.dive().getElement()).toMatchSnapshot();
@@ -27,7 +27,7 @@ describe('screens/clear_after_suggestions', () => {
 
     it('should match snapshot with separator and selected check', () => {
         const wrapper = shallowWithIntl(
-            <ClearAfterSuggestion
+            <ClearAfterMenuItem
                 {...baseProps}
                 separator={true}
                 isSelected={true}
@@ -37,14 +37,14 @@ describe('screens/clear_after_suggestions', () => {
         expect(wrapper.dive().getElement()).toMatchSnapshot();
     });
 
-    it('should call handleSuggestionClick on clicking the suggestion', () => {
+    it('should call handleItemClick on clicking the suggestion', () => {
         const wrapper = shallowWithIntl(
-            <ClearAfterSuggestion
+            <ClearAfterMenuItem
                 {...baseProps}
             />,
         );
 
         wrapper.dive().find(TouchableOpacity).simulate('press');
-        expect(baseProps.handleSuggestionClick).toBeCalled();
+        expect(baseProps.handleItemClick).toBeCalled();
     });
 });

@@ -38,7 +38,7 @@ exports[`screens/clear_after_modal should match snapshot 1`] = `
           "opacity": 1,
         }
       }
-      testID="clear_after.suggestion.date_and_time.button.date"
+      testID="clear_after.menu_item.date_and_time.button.date"
     >
       <View
         style={
@@ -83,7 +83,7 @@ exports[`screens/clear_after_modal should match snapshot 1`] = `
           "opacity": 1,
         }
       }
-      testID="clear_after.suggestion.date_and_time.button.time"
+      testID="clear_after.menu_item.date_and_time.button.time"
     >
       <View
         style={

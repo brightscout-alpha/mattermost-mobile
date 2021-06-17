@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`screens/clear_after_suggestions should match snapshot 1`] = `
+exports[`screens/clear_after_menu_item should match snapshot 1`] = `
 <View>
   <ForwardRef
     onPress={[Function]}
-    testID="clear_after.suggestion."
+    testID="clear_after.menu."
   >
     <View
       style={
@@ -72,11 +72,11 @@ exports[`screens/clear_after_suggestions should match snapshot 1`] = `
 </View>
 `;
 
-exports[`screens/clear_after_suggestions should match snapshot with separator and selected check 1`] = `
+exports[`screens/clear_after_menu_item should match snapshot with separator and selected check 1`] = `
 <View>
   <ForwardRef
     onPress={[Function]}
-    testID="clear_after.suggestion."
+    testID="clear_after.menu."
   >
     <View
       style={

@@ -10,7 +10,7 @@ import Preferences from '@mm-redux/constants/preferences';
 
 jest.mock('@mm-redux/selectors/entities/preferences');
 
-describe('components/custom_status/custom_status_emoji', () => {
+describe('components/custom_status/custom_status_expiry', () => {
     const date = '2200-04-13T18:09:12.451Z';
 
     const baseProps = {

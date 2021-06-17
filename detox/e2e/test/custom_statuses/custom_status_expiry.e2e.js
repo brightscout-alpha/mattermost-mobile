@@ -18,7 +18,7 @@ import {
 } from '@support/ui/screen';
 import {wait, timeouts} from '@support/utils';
 
-describe('Custom status', () => {
+describe('Custom status expiry', () => {
     const {
         closeSettingsSidebar,
         openSettingsSidebar,
@@ -188,12 +188,22 @@ describe('Custom status', () => {
         // # Click on the Clear After option and check if the modal opens
         await ClearAfterScreen.open();
 
-        // * Check if all the default suggestions are visible
+        // * Check if all the default menu items are visible
         const isClearAfterSuggestionPresentPromiseArray = [];
         defaultClearAfterDurations.map(async (duration) => {
-            isClearAfterSuggestionPresentPromiseArray.push(expect(ClearAfterScreen.getClearAfterSuggestion(duration)).toBeVisible());
+            isClearAfterSuggestionPresentPromiseArray.push(expect(ClearAfterScreen.getClearAfterMenuItem(duration)).toBeVisible());
         });
         await Promise.all(isClearAfterSuggestionPresentPromiseArray);
+
+        // # Select a different expiry time and check if it is shown in Clear After
+        await element(by.id('clear_after.menu_item.four_hours')).tap();
+        await ClearAfterScreen.close();
+
+        // Check if selected duration is shown in clear after
+        await expect(element(by.id('custom_status.duration.four_hours'))).toBeVisible();
+
+        // * Open Clear After modal
+        await ClearAfterScreen.open();
 
         // * Tap 'Custom' and check if it is selected
         await element(by.text('Custom')).tap();
@@ -204,20 +214,15 @@ describe('Custom status', () => {
 
         const am_pm = moment().format('A').toString();
 
+        // * Select some time in future in date time picker
         await ClearAfterScreen.openTimePicker();
-        await DateTimePicker.changeHourValue('11');
-        await DateTimePicker.tapOkButtonAndroid();
-
-        await ClearAfterScreen.openTimePicker();
-
-        await DateTimePicker.changeMinuteValue('59');
+        await DateTimePicker.changeTime('11', '59');
         await DateTimePicker.tapOkButtonAndroid();
 
         await ClearAfterScreen.close();
-
         await CustomStatusScreen.close();
 
-        // // # Close settings sidebar
+        // # Close settings sidebar
         await closeSettingsSidebar();
 
         // * Check if the selected emoji and text are visible in the sidebar

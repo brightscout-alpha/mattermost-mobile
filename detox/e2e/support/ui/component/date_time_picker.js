@@ -2,21 +2,7 @@
 // See LICENSE.txt for license information.
 
 class DateTimePicker {
-    changeMinuteValue = async (minute) => {
-        const keyboardIconButton = element(
-            by.type('androidx.appcompat.widget.AppCompatImageButton'),
-        );
-
-        await keyboardIconButton.tap();
-
-        const minuteTextinput = element(
-            by.type('androidx.appcompat.widget.AppCompatEditText'),
-        ).atIndex(1);
-
-        await minuteTextinput.replaceText(minute);
-    }
-
-    changeHourValue = async (hour) => {
+    changeTime = async (hour, minute) => {
         const keyboardIconButton = element(
             by.type('androidx.appcompat.widget.AppCompatImageButton'),
         );
@@ -27,7 +13,12 @@ class DateTimePicker {
             by.type('androidx.appcompat.widget.AppCompatEditText'),
         ).atIndex(0);
 
+        const minuteTextinput = element(
+            by.type('androidx.appcompat.widget.AppCompatEditText'),
+        ).atIndex(1);
+
         await hourTextinput.replaceText(hour);
+        await minuteTextinput.replaceText(minute);
     }
 
     tapCancelButtonAndroid = async () => {
