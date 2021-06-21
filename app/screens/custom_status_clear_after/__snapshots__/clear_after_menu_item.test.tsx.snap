@@ -4,7 +4,7 @@ exports[`screens/clear_after_menu_item should match snapshot 1`] = `
 <View>
   <ForwardRef
     onPress={[Function]}
-    testID="clear_after.menu."
+    testID="clear_after.menu_item."
   >
     <View
       style={
@@ -76,7 +76,7 @@ exports[`screens/clear_after_menu_item should match snapshot with separator and 
 <View>
   <ForwardRef
     onPress={[Function]}
-    testID="clear_after.menu."
+    testID="clear_after.menu_item."
   >
     <View
       style={
