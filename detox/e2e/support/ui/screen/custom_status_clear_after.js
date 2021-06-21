@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CustomStatusScreen} from '@support/ui/screen';
 import moment from 'moment-timezone';
+
+import {CustomStatusScreen} from '@support/ui/screen';
 
 class ClearAfterScreen {
     testID = {

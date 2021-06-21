@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
+import {TouchableOpacity} from 'react-native';
 
-import {shallowWithIntl} from 'test/intl-test-helper';
 import Preferences from '@mm-redux/constants/preferences';
 import {CustomStatusDuration} from '@mm-redux/types/users';
+import {shallowWithIntl} from 'test/intl-test-helper';
 import ClearAfterMenuItem from './clear_after_menu_item';
-import {TouchableOpacity} from 'react-native';
 
 describe('screens/clear_after_menu_item', () => {
     const baseProps = {

@@ -3,10 +3,10 @@
 
 import React from 'react';
 
+import Preferences from '@mm-redux/constants/preferences';
 import * as PreferenceSelectors from '@mm-redux/selectors/entities/preferences';
 import {renderWithReduxIntl} from 'test/testing_library';
 import CustomStatusExpiry from './custom_status_expiry';
-import Preferences from '@mm-redux/constants/preferences';
 
 jest.mock('@mm-redux/selectors/entities/preferences');
 
