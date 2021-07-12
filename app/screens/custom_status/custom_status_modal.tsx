@@ -322,7 +322,6 @@ class CustomStatusModal extends NavigationComponent<Props, State> {
     }
 
     handleClearAfterClick = (duration: CustomStatusDuration, expires_at: string) => {
-        dismissModal();
         this.setState({
             duration,
             expires_at: duration === DATE_AND_TIME ? moment(expires_at) : this.state.expires_at,
